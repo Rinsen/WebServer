@@ -79,7 +79,7 @@ Getting Started
 1. Download Rinsen/WebServer.
 2. Set desired .Net Micro Framework Deployment type in DemoWeb
 3. Build and Start
-4. Locate Output - Debug
+4. Locate Output - Debug in Visual Studio
 5. Copy http address 
 6. Run address in browser and add example name at the end http://192.168.1.x:8500/ Put example name here
 
