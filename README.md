@@ -88,6 +88,7 @@ Getting Started
 2. DataModelBinder
 3. FormCollection
 4. Exception
-5. Json
-6. DontLetMeIn
+5. Exception/InnerException
+6. Json
+7. DontLetMeIn
 
