@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer.UnitTests", "Fredde.Web.Server.UnitTests\Rinsen.WebServer.UnitTests.csproj", "{A08D703F-165F-4605-8DC1-05743A113D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer", "Fredde.Web.Server\Rinsen.WebServer.csproj", "{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWeb", "DemoWeb\DemoWeb.csproj", "{72EE43DE-970A-443F-851F-CA89A061CC1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer.FileAndDirectoryServer", "Rinsen.WebServer.FileAndDirectoryServer\Rinsen.WebServer.FileAndDirectoryServer.csproj", "{1D224CF4-2802-4B08-8078-4F300C0775F5}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://hpserver:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DemoWeb\\DemoWeb.csproj
+		SccProjectName1 = DemoWeb
+		SccLocalPath1 = DemoWeb
+		SccProjectUniqueName2 = Fredde.Web.Server\\Rinsen.WebServer.csproj
+		SccProjectName2 = Fredde.Web.Server
+		SccLocalPath2 = Fredde.Web.Server
+		SccProjectUniqueName3 = Fredde.Web.Server.UnitTests\\Rinsen.WebServer.UnitTests.csproj
+		SccProjectName3 = Fredde.Web.Server.UnitTests
+		SccLocalPath3 = Fredde.Web.Server.UnitTests
+		SccProjectUniqueName4 = Rinsen.WebServer.FileAndDirectoryServer\\Rinsen.WebServer.FileAndDirectoryServer.csproj
+		SccProjectName4 = Rinsen.WebServer.FileAndDirectoryServer
+		SccLocalPath4 = Rinsen.WebServer.FileAndDirectoryServer
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72EE43DE-970A-443F-851F-CA89A061CC1E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1D224CF4-2802-4B08-8078-4F300C0775F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D224CF4-2802-4B08-8078-4F300C0775F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D224CF4-2802-4B08-8078-4F300C0775F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D224CF4-2802-4B08-8078-4F300C0775F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
