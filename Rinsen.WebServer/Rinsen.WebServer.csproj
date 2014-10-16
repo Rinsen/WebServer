@@ -74,7 +74,6 @@
     <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="ServerContext.cs" />
     <Compile Include="SocketListener.cs" />
-    <Compile Include="TestProgram.cs" />
     <Compile Include="Uri.cs" />
   </ItemGroup>
   <ItemGroup>
