@@ -19,6 +19,7 @@ namespace Rinsen.WebServer.Serializers
                     continue;
 
                 var propertyName = property.Name.Substring(4);
+                propertyName = propertyName[0].ToLower() + propertyName.Substring(1);
                 if (first)
                 {
                     jsonStringBuilder.Append("\"" + propertyName + "\": ");

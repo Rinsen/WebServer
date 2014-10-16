@@ -8,9 +8,10 @@ namespace DemoWeb
     {
         public void FilterRequest(RequestContext request, ResponseContext response)
         {
-            if (request.Uri.IsFile)
+            if (request.Uri.LocalPath == "\\DontLetMeIn")
             {
                 response.HttpStatusCode = new Forbidden();
+                response.Data = "Forbidden - 403";
             }
         }
     }

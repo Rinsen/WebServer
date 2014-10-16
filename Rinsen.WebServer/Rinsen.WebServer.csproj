@@ -74,12 +74,17 @@
     <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="ServerContext.cs" />
     <Compile Include="SocketListener.cs" />
+    <Compile Include="TestProgram.cs" />
     <Compile Include="Uri.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MFUnit">
+      <HintPath>..\packages\MFUnit.0.4\lib\netmf43\MFUnit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SPOT.Native">
     </Reference>
     <Reference Include="Microsoft.SPOT.Net" />
+    <Reference Include="Microsoft.SPOT.TinyCore" />
     <Reference Include="System" />
     <Reference Include="System.Text.RegularExpressions" />
   </ItemGroup>

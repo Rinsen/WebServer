@@ -24,10 +24,10 @@ namespace Rinsen.WebServer
             _serverContext = new ServerContext(GetType().Assembly, _routeTable);
         }
 
-        public void StartServer()
+        public void StartServer(int listeningPort = 8500)
         {
             var routes = _routeGenerator.GetRoutes(_serverContext.Assembly);
-            _serverContext.ServerListeningPort = 8500;
+            _serverContext.ServerListeningPort = listeningPort;
 
             _serverContext.RouteTable.Routes.Append(routes);
             _thread = new Thread(() => MyThreadStart(_serverContext));

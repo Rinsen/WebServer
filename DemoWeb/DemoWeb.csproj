@@ -38,9 +38,11 @@
   <ItemGroup>
     <Compile Include="BlinkController.cs" />
     <Compile Include="DataModelBinderController.cs" />
+    <Compile Include="ExceptionController.cs" />
     <Compile Include="Forbidden.cs" />
     <Compile Include="FormCollectionController.cs" />
     <Compile Include="HardwareControl.cs" />
+    <Compile Include="JsonController.cs" />
     <Compile Include="NameModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

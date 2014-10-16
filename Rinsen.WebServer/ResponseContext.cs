@@ -29,7 +29,11 @@ namespace Rinsen.WebServer
                 {
                     return FileLength;
                 }
-                return Data.Length.ToString(); 
+                else if (Data != null && Data != string.Empty)
+                {
+                    return Data.Length.ToString();
+                }
+                return "0";
             } 
         }
 

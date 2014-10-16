@@ -32,7 +32,10 @@ namespace Rinsen.WebServer
                     return;
                 }
 
-                clientSocket.Send(Encoding.UTF8.GetBytes(response.Data), response.Data.Length, SocketFlags.None);
+                if (response.Data != null && response.Data != string.Empty)
+                {
+                    clientSocket.Send(Encoding.UTF8.GetBytes(response.Data), response.Data.Length, SocketFlags.None);
+                }
             }
         }
 

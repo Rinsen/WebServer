@@ -41,16 +41,15 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Routing\MockController.cs" />
     <Compile Include="Routing\RouteTableTests.cs" />
     <Compile Include="Serializers\JsonSerializerTests.cs" />
+    <Compile Include="TestProgram.cs" />
     <Compile Include="UriTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MFUnit, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MFUnit 0.3\MFUnit\bin\Release\netmf43\MFUnit.dll</HintPath>
+    <Reference Include="MFUnit">
+      <HintPath>..\packages\MFUnit.0.4\lib\netmf43\MFUnit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SPOT.Hardware" />
     <Reference Include="Microsoft.SPOT.Hardware.PWM" />
@@ -67,5 +66,8 @@
       <Project>{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}</Project>
       <Name>Rinsen.WebServer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
