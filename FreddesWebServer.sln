@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer.FileAndDir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer", "Rinsen.WebServer\Rinsen.WebServer.csproj", "{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer.UnitTests", "Rinsen.WebServer.UnitTests\Rinsen.WebServer.UnitTests.csproj", "{A08D703F-165F-4605-8DC1-05743A113D9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,12 @@ Global
 		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

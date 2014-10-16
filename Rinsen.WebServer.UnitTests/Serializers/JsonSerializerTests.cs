@@ -44,7 +44,7 @@ namespace Rinsen.WebServer.UnitTests
             var result = jsonSerializer.Serialize(simpleObject);
 
             //Assert
-            Assert.AreEqual("{\"IntValue\": 5,\"StringValue\": \"Fredde\",\"BoolValue\": False}", result);
+            Assert.AreEqual("{\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}", result);
 
         }
 
@@ -64,7 +64,7 @@ namespace Rinsen.WebServer.UnitTests
             var result = jsonSerializer.Serialize(complexObject);
 
             //Assert
-            Assert.AreEqual("{\"MyName\": \"Fredde\",\"MyAge\": 30,\"MyArray\": [5, 10, 100],\"MySimpleObject\": {\"IntValue\": 5,\"StringValue\": \"Fredde\",\"BoolValue\": False}}", result);
+            Assert.AreEqual("{\"myName\": \"Fredde\",\"myAge\": 30,\"myArray\": [5, 10, 100],\"mySimpleObject\": {\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}}", result);
 
         }
     }

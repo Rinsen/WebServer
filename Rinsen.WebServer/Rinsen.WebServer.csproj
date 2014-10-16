@@ -77,9 +77,6 @@
     <Compile Include="Uri.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MFUnit">
-      <HintPath>..\packages\MFUnit.0.4\lib\netmf43\MFUnit.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.SPOT.Native">
     </Reference>
     <Reference Include="Microsoft.SPOT.Net" />
