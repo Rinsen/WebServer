@@ -1,6 +1,7 @@
 using System.Net;
 using Fredde.Web.MicroFramework;
 using Rinsen.WebServer.Routing;
+using System.Collections;
 
 namespace Rinsen.WebServer
 {
@@ -29,11 +30,18 @@ namespace Rinsen.WebServer
 
         public string Information { get; set; }
 
-        public void SetHeaders(string[] headers)
+        public void SetHeaders(ArrayList headers)
         {
             var headerCollection = new HeaderCollection();
-            foreach (var header in headers)
+            var first = true;
+            foreach (string header in headers)
             {
+                if (first)
+                {
+                    first = false;
+                    continue;
+                }
+
                 var headerParts = header.Split(':');
                 headerCollection.AddValue(headerParts[0], headerParts[1].TrimStart(' '));
             }

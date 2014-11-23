@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Collections\FormCollection.cs" />
     <Compile Include="Collections\HeaderCollection.cs" />
+    <Compile Include="Exceptions\EntityToLargeException.cs" />
     <Compile Include="Exceptions\RequestClientSocketException.cs" />
     <Compile Include="Exceptions\RequestAlreadyCompletedException.cs" />
     <Compile Include="HttpApplicationHandler.cs" />

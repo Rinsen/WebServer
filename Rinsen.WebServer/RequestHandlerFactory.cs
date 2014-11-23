@@ -12,9 +12,9 @@ namespace Rinsen.WebServer
             _serverContext = serverContext;
         }
 
-        internal RequestResponseHandler Create()
+        internal RequestResponseHandler Create(Socket socket)
         {
-            var httpContext = new HttpContext(new RequestContext(_serverContext), new ResponseContext());
+            var httpContext = new HttpContext(new RequestContext(_serverContext), new ResponseContext(), socket);
             
             var requestContextBuilder = new RequestContextBuilder(_serverContext);
             var responseContextBuilder = new ResponseContextBuilder();

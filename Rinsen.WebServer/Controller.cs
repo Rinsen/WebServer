@@ -3,6 +3,8 @@ using Microsoft.SPOT;
 using Rinsen.WebServer.Serializers;
 using Fredde.Web.MicroFramework;
 using System.Reflection;
+using System.Net.Sockets;
+using System.Text;
 
 namespace Rinsen.WebServer
 {
@@ -37,7 +39,21 @@ namespace Rinsen.WebServer
         /// <returns></returns>
         public FormCollection GetFormCollection()
         {
-            return new FormCollection(HttpContext.Request.Uri.QueryString);
+            if (HttpContext.Request.Method == "GET")
+            {
+                return new FormCollection(HttpContext.Request.Uri.QueryString);    
+            }
+            else if (HttpContext.Request.Method == "POST")
+            {
+                var data = HttpContext.Socket.Available;
+
+                var buffer = new byte[2048];
+                HttpContext.Socket.Receive(buffer, System.Net.Sockets.SocketFlags.None);
+
+                return new FormCollection(new String(Encoding.UTF8.GetChars(buffer)));
+            }
+
+            throw new NotSupportedException("Only GET and POST is supported");
         }
 
         /// <summary>

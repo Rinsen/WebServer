@@ -3,9 +3,9 @@ using Microsoft.SPOT;
 
 namespace Rinsen.WebServer.Exceptions
 {
-    public class RequestSocketException : Exception
+    public class EntityToLargeException : Exception
     {
-        public RequestSocketException(string message)
+        public EntityToLargeException(string message)
             : base (message)
         { }
     }

@@ -1,11 +1,10 @@
-using Fredde.Web.MicroFramework;
 using Rinsen.WebServer.Exceptions;
+using Rinsen.WebServer.Extensions;
 using System;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.RegularExpressions;
-
 namespace Rinsen.WebServer
 {
     class RequestContextBuilder
@@ -17,49 +16,42 @@ namespace Rinsen.WebServer
             _serverContext = serverContext;
         }
 
-        internal void ProcessRequest(Socket clientSocket, RequestContext requestContext)
+        internal void ProcessRequest(Socket socket, RequestContext requestContext)
         {
-            requestContext.IpEndPoint = clientSocket.RemoteEndPoint as IPEndPoint;
+            requestContext.IpEndPoint = socket.RemoteEndPoint as IPEndPoint;
 
-            var bufferString = GetDataFromSocket(clientSocket);
+            var headerParts = GetHeaderPartsFromSocket(socket);
 
-            var messageHeaderLength = bufferString.IndexOf("\r\n\r\n");
+            requestContext.SetHeaders(headerParts);
 
-            RemoveHeaderFromSocketBuffer(clientSocket, messageHeaderLength);
-
-            if (messageHeaderLength == -1)
-                throw new RequestClientSocketException("Unknown error in HTTP request");
-
-            var requestLineLength = bufferString.IndexOf("\r\n");
-
-            var requestLine = bufferString.Substring(0, requestLineLength);
-
-            var headers = Regex.Split("\r\n", bufferString.Substring(requestLineLength + 2, messageHeaderLength - requestLineLength - 2), RegexOptions.None);
-
-            requestContext.SetHeaders(headers);
-
-            requestContext.SetRequestLineAndUri(requestLine);
+            requestContext.SetRequestLineAndUri((string)headerParts[0]);
         }
 
-        private void RemoveHeaderFromSocketBuffer(Socket clientSocket, int messageHeaderLength)
+        private ArrayList GetHeaderPartsFromSocket(Socket socket)
         {
-            messageHeaderLength = messageHeaderLength + 4;
-            byte[] buffer = new byte[messageHeaderLength];
-            clientSocket.Receive(buffer, messageHeaderLength, SocketFlags.None);
-        }
+            var headerStringRows = new ArrayList();
+            var headerSize = 0;
+            byte[] buffer = new byte[_serverContext.BufferSize];
+            while (socket.Available > 0)
+            {
+                socket.ReceiveUntil(buffer, "\r\n");
+                var headerString = new String(Encoding.UTF8.GetChars(buffer));
 
-        private string GetDataFromSocket(Socket clientSocket)
-        {
-            var available = clientSocket.Available;
-            var bytesToRecive = available < _serverContext.MaxBufferSize ? available : _serverContext.MaxBufferSize;
+                // End if no more headers is discovered
+                if (headerString == null)
+                {
+                    break;
+                }
 
-            if (bytesToRecive == 0)
-                throw new Exception("No data in socket");
-
-            byte[] buffer = new byte[bytesToRecive];
-            var bytesRead = clientSocket.Receive(buffer, bytesToRecive, SocketFlags.Peek);
-            var bufferString = new String(Encoding.UTF8.GetChars(buffer));
-            return bufferString;
+                headerSize += headerString.Length;
+                // Check on sum of header size to try to avoid out of memory exceptions and other nasty things
+                if (headerSize > _serverContext.MaxClientHeaderSize)
+                {
+                    throw new EntityToLargeException("Header entity is to large (HTTP413)");
+                }
+                headerStringRows.Add(headerString);
+            }
+            return headerStringRows;
         }
     }
 }

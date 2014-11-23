@@ -16,30 +16,30 @@ namespace Rinsen.WebServer
             _responseHeaderBuilder = responseHeaderBuilder;
         }
 
-        internal void SendResponse(Socket clientSocket, HttpContext httpContext)
+        internal void SendResponse(HttpContext httpContext)
         {
             var response = httpContext.Response;
             
             var responseLineAndHeaders = _responseHeaderBuilder.BuildResponseLineAndHeaders(response);
 
-            if(clientSocket.Poll(5000000, SelectMode.SelectWrite))
+            if(httpContext.Socket.Poll(5000000, SelectMode.SelectWrite))
             {
-                clientSocket.Send(Encoding.UTF8.GetBytes(responseLineAndHeaders), responseLineAndHeaders.Length, SocketFlags.None);
+                httpContext.Socket.Send(Encoding.UTF8.GetBytes(responseLineAndHeaders), responseLineAndHeaders.Length, SocketFlags.None);
 
                 if (response.IsFile)
                 {
-                    _serverContext.FileAndDirectoryService.SendFile(_serverContext, clientSocket, httpContext);
+                    _serverContext.FileAndDirectoryService.SendFile(_serverContext, httpContext);
                     return;
                 }
 
                 if (response.Data != null && response.Data != string.Empty)
                 {
-                    clientSocket.Send(Encoding.UTF8.GetBytes(response.Data), response.Data.Length, SocketFlags.None);
+                    httpContext.Socket.Send(Encoding.UTF8.GetBytes(response.Data), response.Data.Length, SocketFlags.None);
                 }
             }
         }
 
-        internal void SendInternalServerError(Socket clientSocket, System.Exception e)
+        internal void SendInternalServerError(Socket socket, System.Exception e)
         {
             var response = "Internal server error\r\n\r\nException\r\nMessage:\r\n" + e.Message + "\r\nStack Trace:\r\n" + e.StackTrace;
             var length = response.Length;
@@ -50,13 +50,13 @@ namespace Rinsen.WebServer
                 length += innerException.Length;
 	        }
             var header = "HTTP/1.1 500 Internal Server Error\r\nContent-Length: " + length + "\r\nConnection: close\r\n\r\n";
-            if (clientSocket.Poll(5000000, SelectMode.SelectWrite))
+            if (socket.Poll(5000000, SelectMode.SelectWrite))
             {
-                clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-                clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+                socket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
+                socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
                 if (innerException != string.Empty)
                 {
-                    clientSocket.Send(Encoding.UTF8.GetBytes(innerException), innerException.Length, SocketFlags.None);
+                    socket.Send(Encoding.UTF8.GetBytes(innerException), innerException.Length, SocketFlags.None);
                 }
             }
         }

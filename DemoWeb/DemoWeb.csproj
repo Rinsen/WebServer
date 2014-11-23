@@ -40,6 +40,7 @@
     <Compile Include="DataModelBinderController.cs" />
     <Compile Include="ExceptionController.cs" />
     <Compile Include="Forbidden.cs" />
+    <Compile Include="FormPostController.cs" />
     <Compile Include="FormCollectionController.cs" />
     <Compile Include="HardwareControl.cs" />
     <Compile Include="JsonController.cs" />

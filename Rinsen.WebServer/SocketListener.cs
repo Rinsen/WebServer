@@ -20,30 +20,29 @@ namespace Rinsen.WebServer
         {
             while (true)
             {
-                var clientSocket = serverSocket.Accept();
-                ProcessClientRequest(clientSocket, true);
+                var socket = serverSocket.Accept();
+                ProcessClientRequest(socket, true);
             }
         }
 
-        internal void ProcessClientRequest(Socket clientSocket, Boolean asynchronously)
+        internal void ProcessClientRequest(Socket socket, Boolean asynchronously)
         {
             if (asynchronously)
                 // Spawn a new thread to handle the request.
-                new Thread(() => ProcessRequest(clientSocket)).Start();
-            else ProcessRequest(clientSocket);
-            //ProcessRequest(clientSocket);
+                new Thread(() => ProcessRequest(socket)).Start();
+            else ProcessRequest(socket);
         }
 
-        public void ProcessRequest(Socket clientSocket)
+        public void ProcessRequest(Socket socket)
         {
-            using (clientSocket)
+            using (socket)
             {
-                var requestHandler = _requestHandlerFactory.Create();
-                if (clientSocket.Poll(5000000, SelectMode.SelectRead))
+                var requestHandler = _requestHandlerFactory.Create(socket);
+                if (socket.Poll(5000000, SelectMode.SelectRead))
                 {
                     try
                     {
-                        requestHandler.ProcessRequest(clientSocket);
+                        requestHandler.ProcessRequest();
                     }
                     catch (Exception e) // Catch all unhandled internal server exceptions
                     {

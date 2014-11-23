@@ -1,6 +1,7 @@
 using System;
 using Microsoft.SPOT;
 using Rinsen.WebServer.Serializers;
+using System.Net.Sockets;
 
 namespace Rinsen.WebServer
 {

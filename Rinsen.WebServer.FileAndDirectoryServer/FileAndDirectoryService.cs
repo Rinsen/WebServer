@@ -58,7 +58,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
             }
         }
 
-        public void SendFile(ServerContext serverContext, Socket clientSocket, HttpContext httpContext)
+        public void SendFile(ServerContext serverContext, HttpContext httpContext)
         {
             using (var fileStream = new FileStream(httpContext.Response.FileFullName, FileMode.Open, FileAccess.Read, FileShare.None))
             {
@@ -72,7 +72,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                     // Reads the data.
                     fileStream.Read(buf, 0, (int)bytesToRead);
                     // Writes data to browser
-                    clientSocket.Send(buf, 0, (int)bytesToRead, SocketFlags.None);
+                    httpContext.Socket.Send(buf, 0, (int)bytesToRead, SocketFlags.None);
 
                     // Updates bytes read.
                     bytesSent += bytesToRead;

@@ -8,7 +8,7 @@ namespace Rinsen.WebServer
     {
         void SetFileNameAndPathIfFileExists(ServerContext serverContext, HttpContext httpContext);
 
-        void SendFile(ServerContext serverContext, Socket clientSocket, HttpContext httpContext);
+        void SendFile(ServerContext serverContext, HttpContext httpContext);
 
         bool TryGetDirectoryResultIfDirectoryExists(ServerContext serverContext, HttpContext httpContext);
 

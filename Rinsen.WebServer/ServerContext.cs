@@ -11,7 +11,8 @@ namespace Rinsen.WebServer
         {
             Assembly = assembly;
             RouteTable = routeTable;
-            MaxBufferSize = 2048;
+            BufferSize = 2048;
+            MaxClientHeaderSize = 8192;
         }
 
         public string FileServerBasePath { get; set; }
@@ -21,8 +22,10 @@ namespace Rinsen.WebServer
         public RouteTable RouteTable { get; private set; }
 
         public int ServerListeningPort { get; set; }
+
+        public int MaxClientHeaderSize { get; private set; }
               
-        public int MaxBufferSize { get; private set; }
+        public int BufferSize { get; private set; }
 
         public IFileAndDirectoryService FileAndDirectoryService { get; internal set; }
 

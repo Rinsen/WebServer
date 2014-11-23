@@ -19,9 +19,9 @@ namespace Rinsen.WebServer
             _serverContext = serverContext;
         }
 
-        internal HttpContext CreateInitialContext(Socket clientSocket)
+        internal HttpContext CreateInitialContext()
         {
-            _requestContextBuilder.ProcessRequest(clientSocket, _httpContext.Request);
+            _requestContextBuilder.ProcessRequest(_httpContext.Socket, _httpContext.Request);
 
             _responseContextBuilder.BuildResponseContextBase(_httpContext.Response, _httpContext.Request);
 
