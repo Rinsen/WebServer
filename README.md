@@ -72,10 +72,10 @@ http://192.168.1.100/MyFirst
         public bool InnerStatus { get; set; }
     }
 
-Getting Started
+#Getting Started
 ---------------
 
-### Demo web
+## Run Demo web
 1. Download Rinsen/WebServer.
 2. Set desired .Net Micro Framework Deployment type in DemoWeb
 3. Build and Start
@@ -83,7 +83,7 @@ Getting Started
 5. Copy http address 
 6. Run address in browser and add example name at the end http://192.168.1.x:8500/ Put example name here
 
-### Example names
+### Examples
 1. Blink
 2. DataModelBinder
 3. FormCollection
@@ -91,4 +91,13 @@ Getting Started
 5. Exception/InnerException
 6. Json
 7. DontLetMeIn
+ 
+## Unit tests
+Unit tests is based on MFUnit, MFUnit is included via NuGet
+
+https://github.com/ducas/MFUnit/
+### Run unit tests
+1. Set Rinsen.WebServer.UnitTests as StartUp Project
+2. Set Deployment option to Emulator
+3. Build and Run
 
