@@ -67,5 +67,22 @@ namespace Rinsen.WebServer.UnitTests
             Assert.AreEqual("{\"myName\": \"Fredde\",\"myAge\": 30,\"myArray\": [5, 10, 100],\"mySimpleObject\": {\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}}", result);
 
         }
+
+        public void WhenDeSerializeWithSimpleJsonObject_GetDeSerializedObject()
+        {
+            // Arrange            
+            var jsonSerializer = new JsonSerializer();
+            var jsonString = "{\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}";
+
+            var simpleObject = new JsonSimpleObject { IntValue = 5, StringValue = "Fredde" };
+
+            //Act
+
+            var result = jsonSerializer.DeSerialize(jsonString, typeof(JsonSimpleObject));
+
+            //Assert
+            //Assert.AreEqual(, result);
+
+        }
     }
 }

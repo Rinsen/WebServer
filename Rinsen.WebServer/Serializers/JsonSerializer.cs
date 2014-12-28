@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Reflection;
 using System.Text;
@@ -94,6 +95,26 @@ namespace Rinsen.WebServer.Serializers
                 }
             }
             jsonStringBuilder.Append("]");
+        }
+
+
+        public object DeSerialize(string jsonObject, Type type)
+        {
+            var properties = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            foreach (var property in properties)
+            {
+                // Skip if is a get property
+                if (property.DeclaringType != typeof(void))
+                    continue;
+
+                var propertyName = property.Name.Substring(4).ToLower();
+
+                
+            }
+
+            var instance = type.GetConstructor(new Type[] { }).Invoke(new object[] { });
+
+            throw new System.NotImplementedException();
         }
     }
 }

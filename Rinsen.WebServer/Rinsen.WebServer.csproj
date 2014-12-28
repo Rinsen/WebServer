@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Collections\FormCollection.cs" />
     <Compile Include="Collections\HeaderCollection.cs" />
+    <Compile Include="Collections\TypeInformationCollection.cs" />
     <Compile Include="Exceptions\EntityToLargeException.cs" />
     <Compile Include="Exceptions\RequestClientSocketException.cs" />
     <Compile Include="Exceptions\RequestAlreadyCompletedException.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="IFileAndDirectoryService.cs" />
     <Compile Include="IRequestFilter.cs" />
     <Compile Include="IResponseFilter.cs" />
+    <Compile Include="MethodInformation.cs" />
     <Compile Include="ModelFactory.cs" />
     <Compile Include="RequestResponseHandler.cs" />
     <Compile Include="RequestHandlerFactory.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Routing\RouteTable.cs" />
     <Compile Include="ServerContext.cs" />
     <Compile Include="SocketListener.cs" />
+    <Compile Include="TypeInformation.cs" />
     <Compile Include="Uri.cs" />
   </ItemGroup>
   <ItemGroup>
