@@ -1,10 +1,10 @@
 using System;
 using Microsoft.SPOT;
 using Rinsen.WebServer.Serializers;
-using Fredde.Web.MicroFramework;
 using System.Reflection;
 using System.Net.Sockets;
 using System.Text;
+using Rinsen.WebServer.Collections;
 
 namespace Rinsen.WebServer
 {

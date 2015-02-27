@@ -244,5 +244,14 @@ namespace Rinsen.WebServer.UnitTests
             // Act & Assert
             Assert.AreEqual("\\folder1\\folder2", uri.LocalPath);
         }
+
+        public void WhenGetEmptyQueryString_GetEmptyStringAndNotNull()
+        {
+            // Arrange
+            var uri = new Uri("http", "testuri.se", "/", 2500);
+
+            // Act & Assert
+            Assert.AreEqual(string.Empty, uri.QueryString);
+        }
     }
 }
