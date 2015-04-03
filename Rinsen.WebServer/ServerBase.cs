@@ -20,11 +20,11 @@ namespace Rinsen.WebServer
 		public bool ThreadedResponses {
 			get
 			{
-				return _serverContext.ThreadedReponses;
+				return _serverContext.ThreadedResponses;
 			}
 			set
 			{
-				_serverContext.ThreadedReponses = value;
+                _serverContext.ThreadedResponses = value;
 			}
 		}
 
