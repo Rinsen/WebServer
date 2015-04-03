@@ -44,7 +44,7 @@ namespace Rinsen.WebServer.UnitTests
             var result = jsonSerializer.Serialize(simpleObject);
 
             //Assert
-            Assert.AreEqual("{\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}", result);
+            Assert.AreEqual("{\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": false}", result);
 
         }
 
@@ -64,7 +64,66 @@ namespace Rinsen.WebServer.UnitTests
             var result = jsonSerializer.Serialize(complexObject);
 
             //Assert
-            Assert.AreEqual("{\"myName\": \"Fredde\",\"myAge\": 30,\"myArray\": [5, 10, 100],\"mySimpleObject\": {\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": False}}", result);
+            Assert.AreEqual("{\"myName\": \"Fredde\",\"myAge\": 30,\"myArray\": [5, 10, 100],\"mySimpleObject\": {\"intValue\": 5,\"stringValue\": \"Fredde\",\"boolValue\": false}}", result);
+
+        }
+
+        public class JsonMoreDataTypes
+        {
+            public bool BoolProperty { get; set; }
+
+            public byte ByteProperty { get; set; }
+
+            public sbyte SByteProperty { get; set; }
+
+            public char CharProperty { get; set; }
+
+            public double DoubleProperty { get; set; }
+
+            public float FloatProperty { get; set; }
+
+            public int IntProperty { get; set; }
+
+            public uint UIntProperty { get; set; }
+
+            public long LongProperty { get; set; }
+
+            public ulong ULongProperty { get; set; }
+
+            public short ShortProperty { get; set; }
+
+            public ushort UShortProperty { get; set; }
+
+            public string StringProperty { get; set; }
+            
+        }
+
+        public void WhenSerializeWithMoreDatatypes_GetSerialiedJsonString()
+        {
+            // Arrange
+            var jsonSerializer = new JsonSerializer();
+            var jsonMoreDataTypes = new JsonMoreDataTypes
+            {
+                BoolProperty = true,
+                ByteProperty = 1,
+                SByteProperty = 2,
+                CharProperty = 'K',
+                DoubleProperty = 12.52,
+                FloatProperty = 12.52F,
+                IntProperty = 15789,
+                UIntProperty = 1234,
+                LongProperty = 152,
+                ULongProperty = 12345,
+                ShortProperty = 123,
+                UShortProperty = 555,
+                StringProperty = "This is a string"
+            };
+
+            // Act
+            var result = jsonSerializer.Serialize(jsonMoreDataTypes);
+
+            // Assert
+            Assert.AreEqual("{\"boolProperty\": true,\"byteProperty\": 1,\"sByteProperty\": 2,\"charProperty\": \"K\",\"doubleProperty\": 12.52,\"floatProperty\": 12.5200005,\"intProperty\": 15789,\"uIntProperty\": 1234,\"longProperty\": 152,\"uLongProperty\": 12345,\"shortProperty\": 123,\"uShortProperty\": 555,\"stringProperty\": \"This is a string\"}", result);
 
         }
     }
