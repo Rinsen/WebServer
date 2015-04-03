@@ -40,5 +40,7 @@ namespace Rinsen.WebServer
         public string DefaultMethodName { get; set; }
 
         public string HostName { get; set; }
+		
+		internal bool ThreadedResponses { get; set; }
     }
 }
