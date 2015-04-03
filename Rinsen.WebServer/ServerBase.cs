@@ -16,6 +16,17 @@ namespace Rinsen.WebServer
         private readonly ServerContext _serverContext;
         private readonly RouteGenerator _routeGenerator;
         private IExceptionHandler _exceptionHandler;
+		
+		public bool ThreadedResponses {
+			get
+			{
+				return _serverContext.ThreadedResponses;
+			}
+			set
+			{
+                _serverContext.ThreadedResponses = value;
+			}
+		}
 
         public ServerBase()
         {

@@ -21,7 +21,7 @@ namespace Rinsen.WebServer
             while (true)
             {
                 var socket = serverSocket.Accept();
-                ProcessClientRequest(socket, true);
+                ProcessClientRequest(socket, _serverContext.ThreadedResponses);
             }
         }
 
