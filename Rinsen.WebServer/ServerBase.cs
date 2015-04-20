@@ -17,21 +17,10 @@ namespace Rinsen.WebServer
         private readonly RouteGenerator _routeGenerator;
         private IExceptionHandler _exceptionHandler;
 		
-		public bool ThreadedResponses {
-			get
-			{
-				return _serverContext.ThreadedResponses;
-			}
-			set
-			{
-                _serverContext.ThreadedResponses = value;
-			}
-		}
-
-        public ServerBase()
+		public ServerBase()
         {
             _routeGenerator = new RouteGenerator();
-            _routeTable = new RouteTable("Index");
+            _routeTable = new RouteTable();
             _serverContext = new ServerContext(GetType().Assembly, _routeTable);
         }
 
@@ -78,5 +67,19 @@ namespace Rinsen.WebServer
             _serverContext.FileAndDirectoryService = fileAndDirectoryService;
             _serverContext.FileServerBasePath = fileAndDirectoryService.GetFileServiceBasePath();
         }
+
+        public bool ThreadedResponses
+        {
+            get
+            {
+                return _serverContext.ThreadedResponses;
+            }
+            set
+            {
+                _serverContext.ThreadedResponses = value;
+            }
+        }
+
+        public RouteTable RouteTable { get { return _routeTable; } } 
     }
 }

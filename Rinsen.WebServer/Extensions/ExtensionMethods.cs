@@ -8,6 +8,16 @@ namespace Rinsen.WebServer.Extensions
 {
     public static class ExtensionMethods
     {
+        public static bool Any(this ArrayList arrayList)
+        {
+            return arrayList.Count > 0;
+        }
+
+        public static bool Any(this string[] stringArray)
+        {
+            return stringArray.Length > 0;
+        }
+
         public static void Append(this ArrayList targetArrayList, ArrayList arrayList)
         {
             foreach (var item in arrayList)
