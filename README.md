@@ -86,6 +86,14 @@ To add a default controller and to change the default controller method, default
             webServer.StartServer();
         }
     }
+    
+    public class DefaultController : Controller
+    {
+        public void MyMethodName()
+        {
+            SetHtmlResult("<!DOCTYPE html><html><body><h1>Default controller example</h1></body></html>");
+        }
+    }
 
 #Getting Started
 ---------------
