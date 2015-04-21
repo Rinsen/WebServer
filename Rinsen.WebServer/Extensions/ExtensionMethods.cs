@@ -45,7 +45,7 @@ namespace Rinsen.WebServer.Extensions
                     matchCounter++;
                     if (matchCounter == readUntil.Length)
                     {
-                        Array.Clear(buffer, count - 1, readUntil.Length);
+                        Array.Clear(buffer, count - readUntil.Length + 1, readUntil.Length);
                         break;
                     }
                 }
