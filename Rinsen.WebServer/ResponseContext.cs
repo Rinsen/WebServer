@@ -54,5 +54,7 @@ namespace Rinsen.WebServer
                 return Data != null || FileFullName != null;
             }
         }
+
+        public bool IsSent { get; set; }
     }
 }
