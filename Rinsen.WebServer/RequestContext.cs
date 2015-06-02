@@ -28,9 +28,14 @@ namespace Rinsen.WebServer
             Headers = new HeaderCollection();
             foreach (string header in headers)
             {
-                var splitIndex = header.IndexOf(':');
-                Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).TrimStart(' '));
+                SetHeader(header);
             }
+        }
+
+        public void SetHeader(string header)
+        {
+            var splitIndex = header.IndexOf(':');
+            Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).TrimStart(' '));
         }
 
         public void SetRequestLineAndUri(string requestLine)

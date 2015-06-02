@@ -52,7 +52,6 @@
     <Compile Include="IRequestFilter.cs" />
     <Compile Include="IResponseFilter.cs" />
     <Compile Include="ModelFactory.cs" />
-    <Compile Include="RawRequest.cs" />
     <Compile Include="RequestResponseHandler.cs" />
     <Compile Include="RequestHandlerFactory.cs" />
     <Compile Include="ResponseHandler.cs" />

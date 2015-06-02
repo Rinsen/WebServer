@@ -20,16 +20,11 @@ namespace Rinsen.WebServer
         {
             requestContext.IpEndPoint = socket.RemoteEndPoint as IPEndPoint;
 
-            var rawRequest = GetHeaderPartsFromSocket(socket);
-
-            requestContext.SetHeaders(rawRequest.Headers);
-
-            requestContext.SetRequestLineAndUri(rawRequest.RequestLine);
+            GetHeaderPartsFromSocket(socket, requestContext);
         }
 
-        private RawRequest GetHeaderPartsFromSocket(Socket socket)
+        private void GetHeaderPartsFromSocket(Socket socket, RequestContext requestContext)
         {
-            var rawRequest = new RawRequest();
             var headerSize = 0;
             byte[] buffer = new byte[_serverContext.BufferSize];
             var requestLineSet = false;
@@ -60,14 +55,13 @@ namespace Rinsen.WebServer
                     }
 
                     requestLineSet = true;
-                    rawRequest.RequestLine = headerString;
+                    requestContext.SetRequestLineAndUri(headerString);
                 }
                 else
                 {
-                    rawRequest.Headers.Add(headerString);
+                    requestContext.SetHeader(headerString);
                 }
             }
-            return rawRequest;
         }
     }
 }
