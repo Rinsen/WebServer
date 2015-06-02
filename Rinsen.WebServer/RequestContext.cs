@@ -7,13 +7,6 @@ namespace Rinsen.WebServer
 {
     public class RequestContext
     {
-        private readonly ServerContext _serverContext;
-
-        public RequestContext(ServerContext serverContext)
-        {
-            _serverContext = serverContext;
-        }
-
         public string RequestLine { get { return Method + " " + Uri.RawPath + " " + HttpVersion; } }
 
         public HeaderCollection Headers { get; private set; }
@@ -32,20 +25,12 @@ namespace Rinsen.WebServer
 
         public void SetHeaders(ArrayList headers)
         {
-            var headerCollection = new HeaderCollection();
-            var first = true;
+            Headers = new HeaderCollection();
             foreach (string header in headers)
             {
-                if (first)
-                {
-                    first = false;
-                    continue;
-                }
-
-                var headerParts = header.Split(':');
-                headerCollection.AddValue(headerParts[0], headerParts[1].TrimStart(' '));
+                var splitIndex = header.IndexOf(':');
+                Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).TrimStart(' '));
             }
-            Headers = headerCollection;
         }
 
         public void SetRequestLineAndUri(string requestLine)

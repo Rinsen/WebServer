@@ -46,5 +46,15 @@ namespace Rinsen.WebServer.Extensions
                 count++;
             }
         }
+
+        public static int Count(this IEnumerable collection)
+        {
+            var count = 0;
+            foreach (var item in collection)
+            {
+                count++;
+            }
+            return count;
+        }
     }
 }

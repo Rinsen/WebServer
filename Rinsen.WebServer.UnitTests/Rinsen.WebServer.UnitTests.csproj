@@ -40,6 +40,7 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestContextTests.cs" />
     <Compile Include="Routing\MockController.cs" />
     <Compile Include="Routing\RouteTableTests.cs" />
     <Compile Include="Serializers\JsonSerializerTests.cs" />
