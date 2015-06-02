@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Net.Sockets;
 using System.Text;
 using Rinsen.WebServer.Collections;
+using Rinsen.WebServer.Extensions;
 
 namespace Rinsen.WebServer
 {
@@ -45,12 +46,19 @@ namespace Rinsen.WebServer
             }
             else if (HttpContext.Request.Method == "POST")
             {
-                var data = HttpContext.Socket.Available;
-
+                var socket = HttpContext.Socket;
                 var buffer = new byte[2048];
-                HttpContext.Socket.Receive(buffer, System.Net.Sockets.SocketFlags.None);
 
-                return new FormCollection(new String(Encoding.UTF8.GetChars(buffer)));
+                var formCollection = new FormCollection(HttpContext.Request.Uri.QueryString);
+
+                while (socket.Available > 0)
+                {
+                    socket.ReceiveUntil(buffer, "&");
+                    var keyValuePair = new String(Encoding.UTF8.GetChars(buffer)).Split('=');
+                    formCollection.AddValue(keyValuePair[0], keyValuePair[1]);
+                }
+
+                return formCollection;
             }
 
             throw new NotSupportedException("Only GET and POST is supported");

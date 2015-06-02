@@ -72,6 +72,29 @@ http://192.168.1.100/MyFirst
         public bool InnerStatus { get; set; }
     }
 
+###Default Controller and Method
+
+To add a default controller and to change the default controller method, default method name is Index and default controller name is empty string (not defined)
+
+    public class Program
+    {
+        public static void Main()
+        {
+            var webServer = new WebServer();
+            webServer.RouteTable.DefaultControllerName = "Default";
+            webServer.RouteTable.DefaultMethodName = "MyMethodName";
+            webServer.StartServer();
+        }
+    }
+    
+    public class DefaultController : Controller
+    {
+        public void MyMethodName()
+        {
+            SetHtmlResult("<!DOCTYPE html><html><body><h1>Default controller example</h1></body></html>");
+        }
+    }
+
 #Getting Started
 ---------------
 

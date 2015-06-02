@@ -10,6 +10,7 @@ namespace DemoWeb
             var webServer = new WebServer();
             webServer.AddRequestFilter(new RequestFilter());
             webServer.SetFileAndDirectoryService(new FileAndDirectoryService());
+            webServer.RouteTable.DefaultControllerName = "Default";
             webServer.StartServer();
         }
     }

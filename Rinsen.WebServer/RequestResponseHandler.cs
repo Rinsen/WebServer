@@ -35,18 +35,30 @@ namespace Rinsen.WebServer
 	            {
                     _serverContext.RequestFilter.FilterRequest(_httpContext.Request, _httpContext.Response);
 	            }
-                
+
+                // Interrupt execution of this request if response is sent
+                if (_httpContext.Response.IsSent)
+                    return;
+
                 // Create reponse
                 if (_httpContext.Response.HttpStatusCode == null)
                 {
                     CreateResponse();
                 }
 
+                // Interrupt execution of this request if response is sent
+                if (_httpContext.Response.IsSent)
+                    return;
+
                 // IResponseFilter ?
                 if (_serverContext.ResponseFilter != null)
                 {
                     _serverContext.ResponseFilter.FilterResponse(_httpContext.Response, _httpContext.Request);
                 }
+
+                // Interrupt execution of this request if response is sent
+                if (_httpContext.Response.IsSent)
+                    return;
 
                 // Send response
                 SendResponse();
