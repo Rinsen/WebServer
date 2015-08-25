@@ -98,8 +98,10 @@ namespace Rinsen.WebServer
         public string UriScheme { get; private set; }
 
         public string Host { get; private set; }
-        
-        public string QueryString { get; private set; }
+
+        public string QueryString { get { return _queryString != null ? _queryString : string.Empty; } private set { _queryString = value; } }
+
+        private string _queryString;
 
         public string AbsolutePath { get; private set; }
 

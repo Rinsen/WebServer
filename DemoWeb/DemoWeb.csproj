@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="BlinkController.cs" />
     <Compile Include="DataModelBinderController.cs" />
+    <Compile Include="DefaultController.cs" />
     <Compile Include="ExceptionController.cs" />
     <Compile Include="Forbidden.cs" />
     <Compile Include="FormPostController.cs" />

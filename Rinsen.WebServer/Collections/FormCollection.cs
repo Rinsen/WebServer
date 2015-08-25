@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 
-namespace Fredde.Web.MicroFramework
+namespace Rinsen.WebServer.Collections
 {
     public class FormCollection
     {
@@ -19,15 +20,28 @@ namespace Fredde.Web.MicroFramework
 
         internal void AddQueryString(string queryString)
         {
-            var keyValuePairs = queryString.Split('&');
-            if (keyValuePairs.Length > 0)
+            if (queryString == null)
             {
-                foreach (var keyValuePair in keyValuePairs)
-                {
-                    var keyValueParts = keyValuePair.Split('=');
+                throw new NullReferenceException("Query string can not be null");
+            }
 
-                    AddValue(keyValueParts[0], keyValueParts[1]);
+            if (queryString == string.Empty)
+            {
+                return;
+            }
+            
+            var keyValuePairs = queryString.Split('&');
+            foreach (var keyValuePair in keyValuePairs)
+            {
+                var keyValueParts = keyValuePair.Split('=');
+
+                // If no equal sign is found, skip this part
+                if (!(keyValueParts.Length > 1))
+                {
+                    continue;
                 }
+
+                AddValue(keyValueParts[0], keyValueParts[1]);
             }
         }
 

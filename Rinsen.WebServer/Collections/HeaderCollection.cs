@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Text;
 
-namespace Fredde.Web.MicroFramework
+namespace Rinsen.WebServer.Collections
 {
     public class HeaderCollection
     {

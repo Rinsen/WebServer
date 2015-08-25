@@ -1,8 +1,8 @@
 using System;
 using Microsoft.SPOT;
 using Rinsen.WebServer.Exceptions;
-using Fredde.Web.MicroFramework;
 using Rinsen.WebServer.Http;
+using Rinsen.WebServer.Collections;
 
 namespace Rinsen.WebServer
 {
@@ -54,5 +54,7 @@ namespace Rinsen.WebServer
                 return Data != null || FileFullName != null;
             }
         }
+
+        public bool IsSent { get; set; }
     }
 }

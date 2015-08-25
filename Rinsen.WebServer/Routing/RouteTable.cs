@@ -1,33 +1,44 @@
 using System;
 using Microsoft.SPOT;
 using System.Collections;
+using Rinsen.WebServer.Extensions;
 
 namespace Rinsen.WebServer.Routing
 {
     public class RouteTable
     {
-        private readonly string _defaultMethodName;
-        
-        public RouteTable(string defaultMethodName)
-        {
-            _defaultMethodName = defaultMethodName;
-            Routes = new ArrayList();
-        }
+        public string DefaultMethodName { get; set; }
+        public string DefaultControllerName { get; set; }
+        public bool HasDefaultControllerName { get { return DefaultControllerName != string.Empty; } }
 
         public ArrayList Routes { get; private set; }
 
+        public RouteTable()
+        {
+            DefaultMethodName = "Index";
+            DefaultControllerName = string.Empty;
+            Routes = new ArrayList();
+        }
+
         public bool HasRouteToPath(string path, out RequestRoute resultRoute)
         {
+            string candidateControllerName;
             var pathParts = path.TrimStart('/').Split('/');
 
-            if (!(pathParts.Length > 0))
+            if (pathParts[0] != string.Empty)
+            {
+                candidateControllerName = pathParts[0];
+            }
+            else if (HasDefaultControllerName)
+            {
+                candidateControllerName = DefaultControllerName;
+            }
+            else
             {
                 resultRoute = null;
                 return false;
             }
-
-            var candidateControllerName = pathParts[0];
-	        
+            
             foreach (Route route in Routes)
             {
                 if (route.ControllerName == candidateControllerName)
@@ -48,7 +59,7 @@ namespace Rinsen.WebServer.Routing
         private bool TryFindMethod(Route route, string[] pathParts, out string methodName)
         {
             string defaultMethod = string.Empty;
-            if (pathParts.Length > 1)
+            if (pathParts.Length > 1 && pathParts[1] != string.Empty)
             {
                 foreach (string method in route.Methods)
                 {
@@ -57,22 +68,13 @@ namespace Rinsen.WebServer.Routing
                         methodName = method;
                         return true;
                     }
-                    else if (method == _defaultMethodName)
-                    {
-                        defaultMethod = method;
-                    }
-                }
-                if (defaultMethod != string.Empty)
-                {
-                    methodName = defaultMethod;
-                    return true;
                 }
             }
-            else if(pathParts.Length == 1)
+            else
             {
                 foreach (string method in route.Methods)
                 {
-                    if (method == _defaultMethodName)
+                    if (method == DefaultMethodName)
                     {
                         methodName = method;
                         return true;

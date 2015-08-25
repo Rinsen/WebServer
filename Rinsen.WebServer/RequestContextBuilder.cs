@@ -1,10 +1,10 @@
-using Rinsen.WebServer.Exceptions;
-using Rinsen.WebServer.Extensions;
 using System;
-using System.Collections;
+using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using Rinsen.WebServer.Extensions;
+using Rinsen.WebServer.Exceptions;
+
 namespace Rinsen.WebServer
 {
     class RequestContextBuilder
@@ -20,18 +20,15 @@ namespace Rinsen.WebServer
         {
             requestContext.IpEndPoint = socket.RemoteEndPoint as IPEndPoint;
 
-            var headerParts = GetHeaderPartsFromSocket(socket);
-
-            requestContext.SetHeaders(headerParts);
-
-            requestContext.SetRequestLineAndUri((string)headerParts[0]);
+            GetHeaderPartsFromSocket(socket, requestContext);
         }
 
-        private ArrayList GetHeaderPartsFromSocket(Socket socket)
+        private void GetHeaderPartsFromSocket(Socket socket, RequestContext requestContext)
         {
-            var headerStringRows = new ArrayList();
             var headerSize = 0;
             byte[] buffer = new byte[_serverContext.BufferSize];
+            var requestLineSet = false;
+
             while (socket.Available > 0)
             {
                 socket.ReceiveUntil(buffer, "\r\n");
@@ -49,9 +46,22 @@ namespace Rinsen.WebServer
                 {
                     throw new EntityToLargeException("Header entity is to large (HTTP413)");
                 }
-                headerStringRows.Add(headerString);
+
+                if (!requestLineSet)
+                {
+                    if (headerString == null  || headerString == string.Empty)
+                    {
+                        throw new ArgumentNullException("Request does not contain any data");
+                    }
+
+                    requestLineSet = true;
+                    requestContext.SetRequestLineAndUri(headerString);
+                }
+                else
+                {
+                    requestContext.SetHeader(headerString);
+                }
             }
-            return headerStringRows;
         }
     }
 }

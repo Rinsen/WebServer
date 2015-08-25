@@ -8,6 +8,16 @@ namespace Rinsen.WebServer.Extensions
 {
     public static class ExtensionMethods
     {
+        public static bool Any(this ArrayList arrayList)
+        {
+            return arrayList.Count > 0;
+        }
+
+        public static bool Any(this string[] stringArray)
+        {
+            return stringArray.Length > 0;
+        }
+
         public static void Append(this ArrayList targetArrayList, ArrayList arrayList)
         {
             foreach (var item in arrayList)
@@ -35,7 +45,7 @@ namespace Rinsen.WebServer.Extensions
                     matchCounter++;
                     if (matchCounter == readUntil.Length)
                     {
-                        Array.Clear(buffer, count - 1, readUntil.Length);
+                        Array.Clear(buffer, count - readUntil.Length + 1, readUntil.Length);
                         break;
                     }
                 }
@@ -45,6 +55,16 @@ namespace Rinsen.WebServer.Extensions
                 }
                 count++;
             }
+        }
+
+        public static int Count(this IEnumerable collection)
+        {
+            var count = 0;
+            foreach (var item in collection)
+            {
+                count++;
+            }
+            return count;
         }
     }
 }

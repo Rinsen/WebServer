@@ -46,26 +46,79 @@ namespace Rinsen.WebServer.Serializers
 
         bool AppendValueToJsonBuilder(object value, StringBuilder jsonStringBuilder)
         {
-            if (value is int)
-            {
-                jsonStringBuilder.Append((int)value);
-                return true;
-            }
-            if (value is string)
-            {
-                jsonStringBuilder.Append("\"" + (string)value + "\"");
-                return true;
-            }
-            if (value.GetType() == typeof(ArrayList))
+            var type = value.GetType();
+
+            if (type == typeof(ArrayList))
             {
                 SerializeArray((ArrayList)value, jsonStringBuilder);
                 return true;
             }
-            if (value is bool)
+            if (type == typeof(bool))
             {
-                jsonStringBuilder.Append(((bool)value).ToString());
+                jsonStringBuilder.Append(value.ToString().ToLower());
                 return true;
             }
+            if (type == typeof(byte))
+            {
+                jsonStringBuilder.Append((byte)value);
+                return true;
+            }
+            if (type == typeof(sbyte))
+            {
+                jsonStringBuilder.Append((sbyte)value);
+                return true;
+            }
+            if (type == typeof(char))
+            {
+                jsonStringBuilder.Append("\"" + (char)value + "\"");
+                return true;
+            }
+            if (type == typeof(double))
+            {
+                jsonStringBuilder.Append((double)value);
+                return true;
+            }
+            if (type == typeof(float))
+            {
+                jsonStringBuilder.Append((float)value);
+                return true;
+            }
+            if (type == typeof(int))
+            {
+                jsonStringBuilder.Append((int)value);
+                return true;
+            }
+            if (type == typeof(uint))
+            {
+                jsonStringBuilder.Append((uint)value);
+                return true;
+            }
+            if (type == typeof(long))
+            {
+                jsonStringBuilder.Append((long)value);
+                return true;
+            }
+            if (type == typeof(ulong))
+            {
+                jsonStringBuilder.Append((ulong)value);
+                return true;
+            }
+            if (type == typeof(short))
+            {
+                jsonStringBuilder.Append((short)value);
+                return true;
+            }
+            if (type == typeof(ushort))
+            {
+                jsonStringBuilder.Append((ushort)value);
+                return true;
+            }
+            if (type == typeof(string))
+            {
+                jsonStringBuilder.Append("\"" + (string)value + "\"");
+                return true;
+            }
+
             return false;
         }
 
@@ -83,15 +136,10 @@ namespace Rinsen.WebServer.Serializers
                 else
                     first = false;
 
-                if (value is int)
+                if (!AppendValueToJsonBuilder(value, jsonStringBuilder))
                 {
-                    jsonStringBuilder.Append((int)value);
-                    continue;
-                }
-                if (value is string)
-                {
-                    jsonStringBuilder.Append("\"" + (string)value + "\"");
-                    continue;
+                    // If unknown object in value try to serialize object content and add as value
+                    jsonStringBuilder.Append(Serialize(value));
                 }
             }
             jsonStringBuilder.Append("]");

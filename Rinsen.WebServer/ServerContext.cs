@@ -12,7 +12,7 @@ namespace Rinsen.WebServer
             Assembly = assembly;
             RouteTable = routeTable;
             BufferSize = 2048;
-            MaxClientHeaderSize = 8192;
+            MaxClientHeaderSize = 20000;
         }
 
         public string FileServerBasePath { get; set; }
@@ -37,8 +37,9 @@ namespace Rinsen.WebServer
 
         public bool HasFileAndDirectoryService { get { return FileAndDirectoryService != null; } }
 
-        public string DefaultMethodName { get; set; }
-
         public string HostName { get; set; }
+		
+		internal bool ThreadedResponses { get; set; }
+
     }
 }
