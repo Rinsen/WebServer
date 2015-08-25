@@ -1,8 +1,5 @@
-using System;
-using Microsoft.SPOT;
 using System.Collections;
 using MFUnit;
-using Rinsen.WebServer;
 using Rinsen.WebServer.Serializers;
 
 namespace Rinsen.WebServer.UnitTests

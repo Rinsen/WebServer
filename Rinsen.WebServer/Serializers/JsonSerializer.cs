@@ -44,14 +44,14 @@ namespace Rinsen.WebServer.Serializers
             return jsonStringBuilder.ToString();
         }
 
-        private bool AppendValueToJsonBuilder(object value, StringBuilder jsonStringBuilder)
+        bool AppendValueToJsonBuilder(object value, StringBuilder jsonStringBuilder)
         {
-            if (value.GetType() == typeof(int))
+            if (value is int)
             {
                 jsonStringBuilder.Append((int)value);
                 return true;
             }
-            if (value.GetType() == typeof(string))
+            if (value is string)
             {
                 jsonStringBuilder.Append("\"" + (string)value + "\"");
                 return true;
@@ -61,7 +61,7 @@ namespace Rinsen.WebServer.Serializers
                 SerializeArray((ArrayList)value, jsonStringBuilder);
                 return true;
             }
-            if (value.GetType() == typeof(bool))
+            if (value is bool)
             {
                 jsonStringBuilder.Append(((bool)value).ToString());
                 return true;
@@ -69,7 +69,7 @@ namespace Rinsen.WebServer.Serializers
             return false;
         }
 
-        private void SerializeArray(ArrayList valueArray, StringBuilder jsonStringBuilder)
+        void SerializeArray(ArrayList valueArray, StringBuilder jsonStringBuilder)
         {
             if (valueArray.Count == 0)
                 return;
@@ -83,12 +83,12 @@ namespace Rinsen.WebServer.Serializers
                 else
                     first = false;
 
-                if (value.GetType() == typeof(int))
+                if (value is int)
                 {
                     jsonStringBuilder.Append((int)value);
                     continue;
                 }
-                if (value.GetType() == typeof(string))
+                if (value is string)
                 {
                     jsonStringBuilder.Append("\"" + (string)value + "\"");
                     continue;
@@ -100,21 +100,40 @@ namespace Rinsen.WebServer.Serializers
 
         public object DeSerialize(string jsonObject, Type type)
         {
+            var propertyInfoList = GetPropertyInfoList(type);
+
+            var instance = type.GetConstructor(new Type[] { }).Invoke(new object[] { });
+
+            throw new NotImplementedException();
+        }
+
+        ArrayList GetPropertyInfoList(Type type)
+        {
             var properties = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            var propertyInfoList = new ArrayList();
             foreach (var property in properties)
             {
                 // Skip if is a get property
                 if (property.DeclaringType != typeof(void))
                     continue;
 
-                var propertyName = property.Name.Substring(4).ToLower();
-
-                
+                propertyInfoList.Add(new PropertyInfo
+                {
+                    Name = property.Name.Substring(4).ToLower(),
+                    Property = property
+                });
             }
 
-            var instance = type.GetConstructor(new Type[] { }).Invoke(new object[] { });
-
-            throw new System.NotImplementedException();
+            return propertyInfoList;
         }
+    }
+
+    public class PropertyInfo
+    {
+        public string Name { get; set; }
+
+        public Type Type { get { return Property.DeclaringType; } }
+
+        public MethodInfo Property { get; set; }
     }
 }
