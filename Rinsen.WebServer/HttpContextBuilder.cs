@@ -1,15 +1,11 @@
-using System;
-using System.Net;
-using System.Net.Sockets;
-
 namespace Rinsen.WebServer
 {
     class HttpContextBuilder
     {
-        private readonly HttpContext _httpContext;
-        private readonly RequestContextBuilder _requestContextBuilder;
-        private readonly ResponseContextBuilder _responseContextBuilder;
-        private readonly ServerContext _serverContext;
+        readonly HttpContext _httpContext;
+        readonly RequestContextBuilder _requestContextBuilder;
+        readonly ResponseContextBuilder _responseContextBuilder;
+        readonly ServerContext _serverContext;
 
         public HttpContextBuilder(HttpContext httpContext, RequestContextBuilder requestContextBuilder, ResponseContextBuilder responseContextBuilder, ServerContext serverContext)
         {

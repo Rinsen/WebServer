@@ -152,6 +152,8 @@ namespace Rinsen.WebServer.Serializers
 
             var instance = type.GetConstructor(new Type[] { }).Invoke(new object[] { });
 
+            var objectStart = jsonObject.IndexOf('{');
+
             throw new NotImplementedException();
         }
 
@@ -171,6 +173,7 @@ namespace Rinsen.WebServer.Serializers
                     Property = property
                 });
             }
+
 
             return propertyInfoList;
         }
