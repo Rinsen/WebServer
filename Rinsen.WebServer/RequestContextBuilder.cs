@@ -28,6 +28,8 @@ namespace Rinsen.WebServer
             var headerSize = 0;
             byte[] buffer = new byte[_serverContext.BufferSize];
             var requestLineSet = false;
+            var RequestLineHeader = string.Empty;
+
 
             while (socket.Available > 0)
             {
@@ -55,13 +57,14 @@ namespace Rinsen.WebServer
                     }
 
                     requestLineSet = true;
-                    requestContext.SetRequestLineAndUri(headerString);
+                    RequestLineHeader = headerString;
                 }
                 else
                 {
                     requestContext.SetHeader(headerString);
                 }
             }
+            requestContext.SetRequestLineAndUri(RequestLineHeader);
         }
     }
 }

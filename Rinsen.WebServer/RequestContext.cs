@@ -7,6 +7,11 @@ namespace Rinsen.WebServer
 {
     public class RequestContext
     {
+        public RequestContext()
+        {
+            Headers = new HeaderCollection();
+        }
+
         public string RequestLine { get { return Method + " " + Uri.RawPath + " " + HttpVersion; } }
 
         public HeaderCollection Headers { get; private set; }
