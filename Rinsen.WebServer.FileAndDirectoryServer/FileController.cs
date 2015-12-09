@@ -12,6 +12,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
     public class FileController : Controller
     {
         public ISDCardManager SDCardManager { get; set; }
+        private const int _PostRxBufferSize = 1500;
 
         public string RecieveFile()
         {
@@ -32,7 +33,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                     if (contentLengthReceived < contentLengthFromHeader)// get next packet, this should have the start of any file in it. // todo put timeout
                     {
                         int count = 0;
-                        byte[] data = SDCardManager.GetMoreBytes(HttpContext.Socket, out count);
+                        byte[] data = HttpContext.Socket.GetMoreBytes(_PostRxBufferSize, out count);
                         requestContent += new string(Encoding.UTF8.GetChars(data, contentLengthReceived, count));
                         contentLengthReceived += count;
                     }
@@ -93,7 +94,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                         byte[] data = null;
                         int count = 0;
                         {
-                            data = SDCardManager.GetMoreBytes(HttpContext.Socket, out count);
+                            data = HttpContext.Socket.GetMoreBytes(_PostRxBufferSize, out count);
                             contentLengthReceived += count;
                             //requestContent = new string(Encoding.UTF8.GetChars(data, 0, count));
                         }
@@ -121,5 +122,31 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
             return message;
         }
 
+
+        //public override FormCollection GetFormCollection()
+        //{
+        //    if (HttpContext.Request.RequestType == EnumRequestType.Get)
+        //    {
+        //        return new FormCollection(HttpContext.Request.Uri.QueryString);
+        //    }
+        //    else if (HttpContext.Request.RequestType == EnumRequestType.Post)
+        //    {
+        //        var socket = HttpContext.Socket;
+        //        var buffer = new byte[2048];
+
+        //        var formCollection = new FormCollection(HttpContext.Request.Uri.QueryString);
+
+        //        while (socket.Available > 0)
+        //        {
+        //            socket.ReceiveUntil(buffer, "&");
+        //            var keyValuePair = new String(Encoding.UTF8.GetChars(buffer)).Split('=');
+        //            formCollection.AddValue(keyValuePair[0], keyValuePair[1]);
+        //        }
+
+        //        return formCollection;
+        //    }
+
+        //    throw new NotSupportedException("Only GET and POST is supported");
+        //}
     }
 }

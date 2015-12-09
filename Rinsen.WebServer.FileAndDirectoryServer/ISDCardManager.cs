@@ -12,8 +12,6 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 
         void SendFile(string fullPath, Socket socket);
 
-        byte[] GetMoreBytes(Socket connectionSocket, out int count);
-
         bool Write(string path, string fileName, FileMode fileMode, string text);
 
         bool Write(string path, string fileName, FileMode fileMode, byte[] bytes, int length);

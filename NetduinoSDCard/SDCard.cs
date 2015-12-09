@@ -204,15 +204,6 @@ namespace NetduinoSDCard
                 ConsoleWrite.Print("Failed to read chunk, full path: " + fullPath);
         }
 
-        const int _PostRxBufferSize = 1500;
-        public byte[] GetMoreBytes(Socket connectionSocket, out int count)
-        {
-            byte[] result = new byte[_PostRxBufferSize];
-            SocketFlags socketFlags = new SocketFlags();
-            count = connectionSocket.Receive(result, result.Length, socketFlags);
-            return result;
-        }
-
         public static string Replace(string input, char[] oldText, string newText)
         {
             string result = "";
