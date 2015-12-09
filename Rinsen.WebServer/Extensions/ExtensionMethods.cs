@@ -57,6 +57,14 @@ namespace Rinsen.WebServer.Extensions
             }
         }
 
+        public static byte[] GetMoreBytes(this Socket socket, int rxBufferSize, int count)
+        {
+            byte[] result = new byte[rxBufferSize];
+            SocketFlags socketFlags = new SocketFlags();
+            count = socket.Receive(result, result.Length, socketFlags);
+            return result;
+        }
+
         public static int Count(this IEnumerable collection)
         {
             var count = 0;

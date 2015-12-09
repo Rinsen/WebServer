@@ -40,11 +40,11 @@ namespace Rinsen.WebServer
         /// <returns></returns>
         public FormCollection GetFormCollection()
         {
-            if (HttpContext.Request.Method == "GET")
+            if (HttpContext.Request.RequestType == EnumRequestType.Get)
             {
                 return new FormCollection(HttpContext.Request.Uri.QueryString);    
             }
-            else if (HttpContext.Request.Method == "POST")
+            else if (HttpContext.Request.RequestType == EnumRequestType.Post)
             {
                 var socket = HttpContext.Socket;
                 var buffer = new byte[2048];

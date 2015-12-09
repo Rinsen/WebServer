@@ -4,6 +4,9 @@ using Microsoft.SPOT;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Text;
+using Rinsen.WebServer.Collections;
+
+
 namespace Rinsen.WebServer.FileAndDirectoryServer
 {
     public class FileController : Controller
@@ -38,7 +41,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                     var ContentType = request.Headers["Content-Type"]; //will have a value like "multipart/form-data; boundary=---------------------------2261521032598"
                     var boundarystring = ContentType.Split(new char[] { ';' })[1]; //gives me " boundary=---------------------------2261521032598"
                     string boundary = boundarystring.Split(new char[] { '=' })[1].ToString(); //gives me "---------------------------2261521032598"
-                    //                int nextBoundaryIndex = requestContent.IndexOf(boundary);// todo boundaries can change
+                    //int nextBoundaryIndex = requestContent.IndexOf(boundary);// todo boundaries can change
                     boundaryPattern = "--" + boundary;//"#\n\n(.*)\n--$boundary#"
                     Regex MyRegex = new Regex(boundaryPattern, RegexOptions.Multiline);
                     string[] split = MyRegex.Split(requestContent);
@@ -49,7 +52,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                         if (pos >= 0)
                         {
                             string remainder = split[i].Substring(pos + _ContentDispositionSearch.Length);
-                            //                        ConsoleWrite.Print(remainder);
+                            //ConsoleWrite.Print(remainder);
                             string[] nameSplit = remainder.Split(new char[] { '\"' }, 2);
                             string name = nameSplit[0];
                             if (nameSplit[1][0] == ';')
@@ -117,5 +120,6 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 
             return message;
         }
+
     }
 }
