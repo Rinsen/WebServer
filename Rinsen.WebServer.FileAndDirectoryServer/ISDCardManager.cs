@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Rinsen.WebServer.FileAndDirectoryServer
 {
-    public interface ISDCard
+    public interface ISDCardManager
     {
         string GetWorkingDirectoryPath();
 

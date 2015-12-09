@@ -89,7 +89,4 @@
     <Reference Include="System" />
     <Reference Include="System.Text.RegularExpressions" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
 </Project>

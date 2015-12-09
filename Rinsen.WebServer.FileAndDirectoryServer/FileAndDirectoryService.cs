@@ -9,7 +9,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 {
     public class FileAndDirectoryService : IFileAndDirectoryService
     {
-        private ISDCard SDCardManager { get; set; }
+        private ISDCardManager SDCardManager { get; set; }
 
         public void SetFileNameAndPathIfFileExists(ServerContext serverContext, HttpContext httpContext)
         {
@@ -88,12 +88,30 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 
         public string GetFileServiceBasePath()
         {
-            return SDCardManager.GetWorkingDirectoryPath();
+            if (HasSDCardManager)
+                return SDCardManager.GetWorkingDirectoryPath();
+
+            string basePath = "\\SD\\WWW";
+            var directory = new DirectoryInfo(basePath);
+            if (directory.Exists)
+            {
+                return basePath;
+            }
+
+            basePath = "\\WINFS\\WWW";
+            directory = new DirectoryInfo(basePath);
+            if (directory.Exists)
+            {
+                return basePath;
+            }
+            return string.Empty;
         }
 
-        public void SetSDCard(ISDCard sdCard)
+        public void SetSDCardManager(ISDCardManager sdCardManager)
         {
-            SDCardManager = sdCard;
+            SDCardManager = sdCardManager;
         }
+
+        public bool HasSDCardManager { get { return SDCardManager != null; } }
     }
 }

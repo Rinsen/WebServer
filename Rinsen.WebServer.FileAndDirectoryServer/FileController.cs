@@ -8,7 +8,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 {
     public class FileController : Controller
     {
-        public ISDCard SDCardManager { get; set; }
+        public ISDCardManager SDCardManager { get; set; }
 
         public string RecieveFile()
         {
