@@ -31,8 +31,7 @@ namespace Rinsen.WebServer
         public void SetJsonResult(object objectToSerialize)
         {
             HttpContext.Response.ContentType = "application/json";
-            //HttpContext.Response.Data = JsonSerializer.Serialize(objectToSerialize);
-            HttpContext.Response.Data = Json.NETMF.JsonSerializer.SerializeObject(objectToSerialize);
+            HttpContext.Response.Data = JsonSerializer.Serialize(objectToSerialize);
         }
 
         /// <summary>

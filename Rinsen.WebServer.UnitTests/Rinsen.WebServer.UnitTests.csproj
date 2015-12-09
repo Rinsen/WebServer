@@ -48,6 +48,10 @@
     <Compile Include="UriTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Json.NetMF, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Json.NetMF.1.3.0.0\lib\netmf43\Json.NetMF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MFUnit">
       <HintPath>..\packages\MFUnit.0.4\lib\netmf43\MFUnit.dll</HintPath>
     </Reference>
