@@ -1,10 +1,16 @@
 ﻿using Rinsen.WebServer.Http;
 using System.IO;
 using System.Net.Sockets;
+
+using System.Collections;
+
+
 namespace Rinsen.WebServer.FileAndDirectoryServer
 {
     public class FileAndDirectoryService : IFileAndDirectoryService
     {
+        private ISDCard SDCardManager { get; set; }
+
         public void SetFileNameAndPathIfFileExists(ServerContext serverContext, HttpContext httpContext)
         {
             var fileFullName = serverContext.FileServerBasePath + httpContext.Request.Uri.LocalPath;
@@ -60,24 +66,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 
         public void SendFile(ServerContext serverContext, HttpContext httpContext)
         {
-            using (var fileStream = new FileStream(httpContext.Response.FileFullName, FileMode.Open, FileAccess.Read, FileShare.None))
-            {
-                var fileLength = fileStream.Length;
-                byte[] buf = new byte[2048];
-                for (long bytesSent = 0; bytesSent < fileLength; )
-                {
-                    // Determines amount of data left.
-                    long bytesToRead = fileLength - bytesSent;
-                    bytesToRead = bytesToRead < 2048 ? bytesToRead : 2048;
-                    // Reads the data.
-                    fileStream.Read(buf, 0, (int)bytesToRead);
-                    // Writes data to browser
-                    httpContext.Socket.Send(buf, 0, (int)bytesToRead, SocketFlags.None);
-
-                    // Updates bytes read.
-                    bytesSent += bytesToRead;
-                }
-            }
+            SDCardManager.SendFile(httpContext.Response.FileFullName, httpContext.Socket);
         }
 
         public bool TryGetDirectoryResultIfDirectoryExists(ServerContext serverContext, HttpContext httpContext)
@@ -97,23 +86,14 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
             return false;
         }
 
-
         public string GetFileServiceBasePath()
         {
-            string basePath = "\\SD\\WWW";
-            var directory = new DirectoryInfo(basePath);
-            if (directory.Exists)
-            {
-                return basePath;
-            }
-            
-            basePath = "\\WINFS\\WWW";
-            directory = new DirectoryInfo(basePath);
-            if (directory.Exists)
-            {
-                return basePath;
-            }
-            return string.Empty;
+            return SDCardManager.GetWorkingDirectoryPath();
+        }
+
+        public void SetSDCard(ISDCard sdCard)
+        {
+            SDCardManager = sdCard;
         }
     }
 }

@@ -4,29 +4,18 @@ namespace DemoWeb
 {
     public class Program
     {
+        public const string WORKINGDIRECTORY = @"\WWW";
+
         public static void Main()
         {
             // write your code here
             var webServer = new WebServer();
             webServer.AddRequestFilter(new RequestFilter());
+            var fileAndDirectoryService = new FileAndDirectoryService();
+            fileAndDirectoryService.SetSDCard(new SDCardManager(WORKINGDIRECTORY));
             webServer.SetFileAndDirectoryService(new FileAndDirectoryService());
             webServer.RouteTable.DefaultControllerName = "Default";
             webServer.StartServer();
-
-            //var RootDirectory = "\\SD";
-            //var RequiredDirectory = RootDirectory + "\\WWW";
-
-            //DirectoryInfo objDirectoryInfo = new DirectoryInfo(RootDirectory);
-            //Debug.Print("Current Directories...");
-            //foreach (var objDir in objDirectoryInfo.GetDirectories())
-            //    Debug.Print(objDir.FullName);
-
-            //Debug.Print("Creating Directory  " + RequiredDirectory + "...");
-            //Directory.CreateDirectory(RequiredDirectory);
-
-            //Debug.Print("Now Current Directories...");
-            //foreach (var objDir in objDirectoryInfo.GetDirectories())
-            //    Debug.Print(objDir.FullName);
         }
     }
 }
