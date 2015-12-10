@@ -15,111 +15,90 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
         public ISDCardManager SDCardManager { get; set; }
         private const int _PostRxBufferSize = 1500;
 
-        public string RecieveFiles()
+        public FormCollection RecieveFiles()
         {
             var request = HttpContext.Request;
-            Hashtable formVariables = new Hashtable();
-            if (request.Method == HTTPMethod.Post)
+
+
+
+            if (request.Method == HTTPMethod.Post &&
+                request.ContentType.MainContentType == EnumMainContentType.MultiPart &&
+                request.ContentType.SubContentType == EnumSubContentType.FormData)
             {
+                var contentLengthFromHeader = int.Parse(request.Headers["Content-Length"].ToString());
+                var contentLengthReceived = 0;
+                var formCollection = new FormCollection();
+                var socket = HttpContext.Socket;
+                var allDataRecieved = false;
+                var receivedByteCount = 0;
+                var buffer = new byte[2048];
+                var ReadCount = 0;
+                var fileDirectoryPath = SDCardManager.GetWorkingDirectoryPath();
+                var boundaryBytes = Encoding.UTF8.GetBytes(request.Boundary);
+                var strBldr = new StringBuilder();
+                var BoundaryDataSeparator = "\r\n\r\n";
+                var BoundaryDataIndex = 0;
 
-                // This form should be short so get it all data now, in one go.
-                // assume no content sent with first packet todo fix
-                int contentLengthFromHeader = int.Parse(request.Headers["Content-Length"].ToString());
-                int contentLengthReceived = 0;
-                string requestContent = "";
-                string fileName = "";
-                string boundaryPattern = "";
-                string fileDirectoryPath = SDCardManager.GetWorkingDirectoryPath();
+
+                Debug.Print("Boundary is: " + request.Boundary); //The Boundary property will be populated if it is multipart/form-data
+                socket.ReceiveUntil(buffer, boundaryBytes, out receivedByteCount, true); //Discard the first Boundary Read...
+                SDCardManager.Write(fileDirectoryPath, "Test.txt", System.IO.FileMode.Create, buffer, receivedByteCount);
+                while (!allDataRecieved)
                 {
-                    if (contentLengthReceived < contentLengthFromHeader)// get next packet, this should have the start of any file in it. // todo put timeout
+                    contentLengthReceived += receivedByteCount;
+                    Debug.Print("Bytes Read: " + receivedByteCount +
+                    "\r\nTotal Bytes Read: " + contentLengthReceived +
+                    "\r\nTotal Bytes To Read: " + contentLengthFromHeader);
+
+                    if (contentLengthReceived < contentLengthFromHeader)
                     {
-                        int count = 0;
-                        byte[] data = HttpContext.Socket.GetMoreBytes(_PostRxBufferSize, out count);
-                        requestContent += new string(Encoding.UTF8.GetChars(data, contentLengthReceived, count));
-                        contentLengthReceived += count;
-                    }
+                        //while ()
+                        var data = socket.GetMoreBytes(2048, out receivedByteCount);
+                        SDCardManager.Write(fileDirectoryPath, "Test.txt", System.IO.FileMode.Append, data, receivedByteCount);
+                        //switch (ReadCount)
+                        //{
+                        //    case 1:
+                        //        socket.ReceiveUntil(buffer, boundaryBytes, out receivedByteCount); //The Boundary property will be populated if it is multipart/form-data
+                        //        //Debug.Print("Discarding first read of Boundary...");
+                        //        break;
+                        //    case 2:
+                        //        socket.ReceiveUntil(buffer, boundaryBytes, out receivedByteCount);
+                        //        strBldr.Clear();
+                        //        strBldr.Append(Encoding.UTF8.GetChars(buffer));
 
-                    var ContentType = request.Headers["Content-Type"]; //will have a value like "multipart/form-data; boundary=---------------------------2261521032598"
-                    var boundarystring = ContentType.Split(new char[] { ';' })[1]; //gives me " boundary=---------------------------2261521032598"
-                    string boundary = boundarystring.Split(new char[] { '=' })[1].ToString(); //gives me "---------------------------2261521032598"
-                    //int nextBoundaryIndex = requestContent.IndexOf(boundary);// todo boundaries can change
-                    boundaryPattern = "--" + boundary;//"#\n\n(.*)\n--$boundary#"
-                    Regex MyRegex = new Regex(boundaryPattern, RegexOptions.Multiline);
-                    string[] split = MyRegex.Split(requestContent);
-                    for (int i = 0; i < split.Length; i++)
-                    {
-                        const string _ContentDispositionSearch = "Content-Disposition: form-data; name=\"";
-                        int pos = split[i].IndexOf(_ContentDispositionSearch);
-                        if (pos >= 0)
-                        {
-                            string remainder = split[i].Substring(pos + _ContentDispositionSearch.Length);
-                            //ConsoleWrite.Print(remainder);
-                            string[] nameSplit = remainder.Split(new char[] { '\"' }, 2);
-                            string name = nameSplit[0];
-                            if (nameSplit[1][0] == ';')
-                            {// file
-                                int fileDataSeparatorIndex = nameSplit[1].IndexOf("\r\n\r\n"); // "\r\n\r\n" data starts after double new line
-                                if (fileDataSeparatorIndex >= 0)
-                                {
-                                    string fileNameSection = nameSplit[1].Substring(0, fileDataSeparatorIndex);
-                                    string[] fileNameSplit = fileNameSection.Split(new char[] { '\"' });
-                                    formVariables.Add("fileName", fileNameSplit[1]);
-                                    fileName = fileNameSplit[1];
-                                    string fileDataPart1 = nameSplit[1].Substring(fileDataSeparatorIndex + 4);
-                                    SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Create, fileDataPart1);
-                                }
-                            }
-                            else
-                            {// normal form variable
-                                StringBuilder value = new StringBuilder(nameSplit[1]);
-                                value = value.Replace("\r", "").Replace("\n", "").Replace("/", "\\");
-                                if (nameSplit[0] == "path")
-                                {
-                                    fileDirectoryPath = SDCardManager.GetWorkingDirectoryPath() + value + "\\";
-                                }
-                                formVariables.Add(nameSplit[0], value);
+                        //        BoundaryDataIndex = strBldr.ToString().IndexOf(BoundaryDataSeparator);
 
+                        //        fileDirectoryPath = fileDirectoryPath + strBldr.ToString().Substring(BoundaryDataIndex, strBldr.Length - BoundaryDataIndex).Trim('-').Trim();
+                        //        Debug.Print("FileDirectoryPath: " + fileDirectoryPath);
+                        //        break;
+                        //    case 3:
+                        //        socket.ReceiveUntil(buffer, Encoding.UTF8.GetBytes(BoundaryDataSeparator), out receivedByteCount);
+                        //        strBldr.Clear();
+                        //        strBldr.Append(Encoding.UTF8.GetChars(buffer));
+                        //        Debug.Print("Data from 3rd Read" + strBldr);
+                        //        //SDCardManager.Write(fileDirectoryPath, "Text.txt", System.IO.FileMode.Create, buffer, receivedByteCount);
 
-                            }
-                        }
+                        //        break;
+                        //    default:
+                        //        socket.ReceiveUntil(buffer, boundaryBytes, out receivedByteCount);
+                        //        strBldr.Clear();
+                        //        strBldr.Append(Encoding.UTF8.GetChars(buffer));
+                        //        Debug.Print("Data from remaining Reads...\r\n" + strBldr);
+                        //        //SDCardManager.Write(fileDirectoryPath, "Text.txt", System.IO.FileMode.Append, buffer, receivedByteCount);
+                        //        break;
+                        //}
+                        //ReadCount += 1;
+                        
 
                     }
+                    else
+                        allDataRecieved = true;
                 }
 
-                // get the rest of the file and send to sd card
-                if (fileName.Length > 0)// todo what other checks
-                {
-                    while (contentLengthReceived < contentLengthFromHeader)// get next packet, this should have the start of any file in it. // todo put timeout
-                    {
-                        byte[] data = null;
-                        int count = 0;
-                        {
-                            data = HttpContext.Socket.GetMoreBytes(_PostRxBufferSize, out count);
-                            contentLengthReceived += count;
-                            //requestContent = new string(Encoding.UTF8.GetChars(data, 0, count));
-                        }
-                        //ConsoleWrite.CollectMemoryAndPrint(true, System.Threading.Thread.CurrentThread.ManagedThreadId);
-                        int boundaryPosition = requestContent.IndexOf(boundaryPattern);
-                        if (boundaryPosition < 0)
-                        {// no boundary so write all the bytes
-                            SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Append, data, count);
-                        }
-                        else
-                        {//  boundary so write some of the bytes via a string
-                            string fileContent = requestContent.Substring(0, boundaryPosition);
-                            SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Append, fileContent);
-                        }
-                        // todo other params following
-
-                    }
-                }
-
+                return formCollection;
             }
-            string message = string.Empty;
-            foreach (string key in formVariables.Keys)
-                message += "<p>" + key + ": " + formVariables[key].ToString() + "</p>";
 
-            return message;
+            throw new NotSupportedException("Only POST is supported");
         }
     }
 }

@@ -33,31 +33,12 @@ namespace Rinsen.WebServer.Extensions
 
         public static void ReceiveUntil(this Socket socket, byte[] buffer, byte[] readUntil)
         {
-            // Clear buffer always to remove old junk if buffer is reused
-            Array.Clear(buffer, 0, buffer.Length);
-            var count = 0;
-            var matchCounter = 0;
-            while (socket.Available > 0 && count < buffer.Length)
-            {
-                socket.Receive(buffer, count, 1, SocketFlags.None);
-                if (buffer[count] == readUntil[matchCounter])
-                {
-                    matchCounter++;
-                    if (matchCounter == readUntil.Length)
-                    {
-                        Array.Clear(buffer, count - readUntil.Length + 1, readUntil.Length);
-                        break;
-                    }
-                }
-                else
-                {
-                    matchCounter = 0;
-                }
-                count++;
-            }
+            var bytesReceived = 0;
+
+            ReceiveUntil(socket, buffer, readUntil, out bytesReceived);
         }
 
-        public static void ReceiveUntil(this Socket socket, byte[] buffer, byte[] readUntil, out int bytesRecieved)
+        public static void ReceiveUntil(this Socket socket, byte[] buffer, byte[] readUntil, out int bytesRecieved, bool leaveDelimeter = false)
         {
             // Clear buffer always to remove old junk if buffer is reused
             Array.Clear(buffer, 0, buffer.Length);
@@ -73,7 +54,8 @@ namespace Rinsen.WebServer.Extensions
                     matchCounter++;
                     if (matchCounter == readUntil.Length)
                     {
-                        Array.Clear(buffer, count - readUntil.Length + 1, readUntil.Length);
+                        if (!leaveDelimeter)
+                            Array.Clear(buffer, count - readUntil.Length + 1, readUntil.Length);
                         break;
                     }
                 }
@@ -238,5 +220,29 @@ namespace Rinsen.WebServer.Extensions
                     return EnumSubContentType.Undefined;
             }
         }
+
+        public static int IndexOf(this byte[] source, byte[] patternToFind)
+        {
+            if (patternToFind.Length > source.Length)
+                return -1;
+            for (int i = 0; i < source.Length - patternToFind.Length; i++)
+            {
+                bool found = true;
+                for (int j = 0; j < patternToFind.Length; j++)
+                {
+                    if (source[i + j] != patternToFind[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
     }
 }
