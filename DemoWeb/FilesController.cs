@@ -31,10 +31,11 @@ namespace DemoWeb
         {
             this.SDCardManager = new SDCardManager(Program.WORKINGDIRECTORY);
 
-            if (HttpContext.Request.RequestType == EnumRequestType.Post)
+            if (HttpContext.Request.Method == HTTPMethod.Post)
             {
-                var doFileUpload = RecieveFile();
-                SetJsonResult(new Result { Success = true, Message = doFileUpload });
+                var doFileUpload = RecieveFiles();
+
+                SetJsonResult(new Result { Success = true, Message = "Files Recieved!" });
             }
         }
     }

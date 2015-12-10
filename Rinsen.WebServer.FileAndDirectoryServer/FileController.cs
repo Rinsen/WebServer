@@ -5,6 +5,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Text;
 using Rinsen.WebServer.Collections;
+using Rinsen.WebServer.Extensions;
 
 
 namespace Rinsen.WebServer.FileAndDirectoryServer
@@ -14,11 +15,11 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
         public ISDCardManager SDCardManager { get; set; }
         private const int _PostRxBufferSize = 1500;
 
-        public string RecieveFile()
+        public string RecieveFiles()
         {
             var request = HttpContext.Request;
             Hashtable formVariables = new Hashtable();
-            if (request.RequestType == EnumRequestType.Post)
+            if (request.Method == HTTPMethod.Post)
             {
 
                 // This form should be short so get it all data now, in one go.
@@ -38,7 +39,6 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                         contentLengthReceived += count;
                     }
 
-                    string strTemp = request.Headers["Content-Type"].Split(new char[] { ';' })[1].Split(new char[] { '=' })[1].ToString();
                     var ContentType = request.Headers["Content-Type"]; //will have a value like "multipart/form-data; boundary=---------------------------2261521032598"
                     var boundarystring = ContentType.Split(new char[] { ';' })[1]; //gives me " boundary=---------------------------2261521032598"
                     string boundary = boundarystring.Split(new char[] { '=' })[1].ToString(); //gives me "---------------------------2261521032598"
@@ -121,32 +121,5 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
 
             return message;
         }
-
-
-        //public override FormCollection GetFormCollection()
-        //{
-        //    if (HttpContext.Request.RequestType == EnumRequestType.Get)
-        //    {
-        //        return new FormCollection(HttpContext.Request.Uri.QueryString);
-        //    }
-        //    else if (HttpContext.Request.RequestType == EnumRequestType.Post)
-        //    {
-        //        var socket = HttpContext.Socket;
-        //        var buffer = new byte[2048];
-
-        //        var formCollection = new FormCollection(HttpContext.Request.Uri.QueryString);
-
-        //        while (socket.Available > 0)
-        //        {
-        //            socket.ReceiveUntil(buffer, "&");
-        //            var keyValuePair = new String(Encoding.UTF8.GetChars(buffer)).Split('=');
-        //            formCollection.AddValue(keyValuePair[0], keyValuePair[1]);
-        //        }
-
-        //        return formCollection;
-        //    }
-
-        //    throw new NotSupportedException("Only GET and POST is supported");
-        //}
     }
 }

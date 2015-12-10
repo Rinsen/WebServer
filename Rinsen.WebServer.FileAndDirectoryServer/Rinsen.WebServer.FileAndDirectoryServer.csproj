@@ -35,7 +35,6 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="DirectoryListBuilder.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FileController.cs" />
     <Compile Include="ISDCardManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

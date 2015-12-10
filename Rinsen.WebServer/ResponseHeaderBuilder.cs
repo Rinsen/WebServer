@@ -22,7 +22,7 @@ namespace Rinsen.WebServer
         private void SetContentLength(ResponseContext response)
         {
             response.Headers["Content-Length"] = response.DataLength;
-            response.Headers["ContentType"] = response.ContentType;
+            response.Headers["ContentType"] = response.ContentType.ToString();
         }
     }
 }
