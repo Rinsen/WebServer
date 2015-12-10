@@ -244,5 +244,11 @@ namespace Rinsen.WebServer.Extensions
             return -1;
         }
 
+        public static byte[] SubArray(this byte[] source, int index, int length)
+        {
+            byte[] result = new byte[length];
+            Array.Copy(source, index, result, 0, length);
+            return result;
+        }
     }
 }
