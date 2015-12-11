@@ -67,7 +67,6 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                         if (buffer.IndexOf(Encoding.UTF8.GetBytes("--\r\n")) == 0 && buffer[5] == default(byte))
                         {
                             Debug.Print("You've reached the end of the multipart form! ");
-                            contentLengthReceived += receivedByteCount;
                             continue;
                         }
 
@@ -107,7 +106,8 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                                 fileName = "Unknown.txt";
                             Debug.Print("File name is set to: " + fileName);
 
-                            var BoundaryData = buffer.SubArray(BoundaryDataIndex + BoundaryDataSeparator.Length, receivedByteCount - BoundaryDataIndex - BoundaryDataSeparator.Length);
+
+                            var BoundaryData = buffer.SubArray(BoundaryDataIndex + BoundaryDataSeparator.Length, receivedByteCount - BoundaryDataIndex - BoundaryDataSeparator.Length + 1);
                             if (BoundaryData.IndexOf(boundaryBytes) == -1) //Write to file, loop to get remaining file data
                             {
                                 var intTemp = receivedByteCount;
@@ -132,11 +132,9 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                             }
                             else //remove boundary string, write to file and exit...
                             {
-                                //remove boundary string here before you write to file...
-                                var intBeginningBoundaryBytesIndex = buffer.IndexOf(BeginningboundaryBytes);
-                                var Data = buffer.SubArray(0, intBeginningBoundaryBytesIndex);
+                                var intBeginningBoundaryBytesIndex = BoundaryData.IndexOf(BeginningboundaryBytes);
+                                var Data = BoundaryData.SubArray(0, intBeginningBoundaryBytesIndex);
                                 SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Append, Data, Data.Length);
-                                //SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Create, BoundaryData, BoundaryData.Length);
                             }
                         }
                         else //add the 'name' value and BoundaryData to the PostedData FormCollection object...

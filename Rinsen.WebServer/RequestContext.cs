@@ -62,7 +62,7 @@ namespace Rinsen.WebServer
                     ContentType.SubContentType = subcontentData[0].GetContentTypeSub();
 
                     var boundaryData = subcontentData[1].Split('=');
-                    Boundary = boundaryData[1].Trim('-');
+                    Boundary = boundaryData[1].TrimStart('-');//only remove the --'s because there is a \r\n on the other side of the number that is needed...
                 }
                 else
                 {
