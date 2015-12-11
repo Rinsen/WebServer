@@ -107,9 +107,10 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                             Debug.Print("File name is set to: " + fileName);
 
 
-                            var BoundaryData = buffer.SubArray(BoundaryDataIndex + BoundaryDataSeparator.Length, receivedByteCount - BoundaryDataIndex - BoundaryDataSeparator.Length + 1);
-                            if (BoundaryData.IndexOf(boundaryBytes) == -1) //Write to file, loop to get remaining file data
+                            
+                            if (buffer.IndexOf(boundaryBytes) == -1) //Write to file, loop to get remaining file data
                             {
+                                var BoundaryData = buffer.SubArray(BoundaryDataIndex + BoundaryDataSeparator.Length, receivedByteCount - BoundaryDataIndex - BoundaryDataSeparator.Length);
                                 var intTemp = receivedByteCount;
                                 SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Create, BoundaryData, BoundaryData.Length);
                                 while (buffer.IndexOf(boundaryBytes) == -1)  //boundary hasn't been reached, get more data...
@@ -132,6 +133,7 @@ namespace Rinsen.WebServer.FileAndDirectoryServer
                             }
                             else //remove boundary string, write to file and exit...
                             {
+                                var BoundaryData = buffer.SubArray(BoundaryDataIndex + BoundaryDataSeparator.Length, receivedByteCount - BoundaryDataIndex - BoundaryDataSeparator.Length + 1);
                                 var intBeginningBoundaryBytesIndex = BoundaryData.IndexOf(BeginningboundaryBytes);
                                 var Data = BoundaryData.SubArray(0, intBeginningBoundaryBytesIndex);
                                 SDCardManager.Write(fileDirectoryPath, fileName, System.IO.FileMode.Append, Data, Data.Length);
