@@ -37,7 +37,7 @@ namespace Rinsen.WebServer
             } 
         }
 
-        public string ContentType { get; set; }
+        public ContentType ContentType { get; set; }
 
         public HttpStatusCode HttpStatusCode { get; set; }
 

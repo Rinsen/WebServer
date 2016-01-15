@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWeb", "DemoWeb\DemoWeb.csproj", "{72EE43DE-970A-443F-851F-CA89A061CC1E}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer", "Rinsen.WebServer\Rinsen.WebServer.csproj", "{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rinsen.WebServer.UnitTests", "Rinsen.WebServer.UnitTests\Rinsen.WebServer.UnitTests.csproj", "{A08D703F-165F-4605-8DC1-05743A113D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetduinoSDCard", "NetduinoSDCard\NetduinoSDCard.csproj", "{66F7DA1E-2931-4E24-81F7-471B08488B96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,12 @@ Global
 		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A08D703F-165F-4605-8DC1-05743A113D9E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F7DA1E-2931-4E24-81F7-471B08488B96}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

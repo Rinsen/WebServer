@@ -68,6 +68,11 @@ namespace Rinsen.WebServer
             _serverContext.FileServerBasePath = fileAndDirectoryService.GetFileServiceBasePath();
         }
 
+        public void SetHostName(string hostName)
+        {
+            _serverContext.HostName = hostName;
+        }
+
         public bool ThreadedResponses
         {
             get

@@ -40,6 +40,7 @@
     <Compile Include="DataModelBinderController.cs" />
     <Compile Include="DefaultController.cs" />
     <Compile Include="ExceptionController.cs" />
+    <Compile Include="FilesController.cs" />
     <Compile Include="Forbidden.cs" />
     <Compile Include="FormPostController.cs" />
     <Compile Include="FormCollectionController.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RequestFilter.cs" />
+    <Compile Include="SDCardManager.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,8 +62,14 @@
     <Reference Include="SecretLabs.NETMF.Hardware" />
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino" />
     <Reference Include="System" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.Text.RegularExpressions" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetduinoSDCard\NetduinoSDCard.csproj">
+      <Project>{66F7DA1E-2931-4E24-81F7-471B08488B96}</Project>
+      <Name>NetduinoSDCard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rinsen.WebServer\Rinsen.WebServer.csproj">
       <Project>{6BFC7545-24EF-4C5B-9EDE-3EC99CDB86E4}</Project>
       <Name>Rinsen.WebServer</Name>

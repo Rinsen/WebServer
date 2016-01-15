@@ -24,13 +24,13 @@ namespace Rinsen.WebServer
         
         public void SetHtmlResult(string data)
         {
-            HttpContext.Response.ContentType = "text/html";
+            HttpContext.Response.ContentType = new ContentType { MainContentType = EnumMainContentType.Text, SubContentType = EnumSubContentType.Html };
             HttpContext.Response.Data = data;
         }
 
         public void SetJsonResult(object objectToSerialize)
         {
-            HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.ContentType = new ContentType { MainContentType = EnumMainContentType.Application, SubContentType = EnumSubContentType.Json };
             HttpContext.Response.Data = JsonSerializer.Serialize(objectToSerialize);
         }
 
@@ -40,11 +40,11 @@ namespace Rinsen.WebServer
         /// <returns></returns>
         public FormCollection GetFormCollection()
         {
-            if (HttpContext.Request.Method == "GET")
+            if (HttpContext.Request.Method == HTTPMethod.Get)
             {
                 return new FormCollection(HttpContext.Request.Uri.QueryString);    
             }
-            else if (HttpContext.Request.Method == "POST")
+            else if (HttpContext.Request.Method == HTTPMethod.Post)
             {
                 var socket = HttpContext.Socket;
                 var buffer = new byte[2048];

@@ -2,7 +2,7 @@ using System;
 using Microsoft.SPOT;
 using System.Net;
 using Microsoft.SPOT.Net.NetworkInformation;
-using System.Text;
+using Rinsen.WebServer.Extensions;
 
 namespace Rinsen.WebServer
 {
@@ -22,16 +22,7 @@ namespace Rinsen.WebServer
                 {
                     Debug.Print("Dns address: " + dnsAddress);
                 }
-                var sb = new StringBuilder("Physical address: ");
-                var parts = 1;
-                foreach (var physicalAddress in networkInterface.PhysicalAddress)
-                {
-                    sb.Append(physicalAddress);
-                    if (parts < networkInterface.PhysicalAddress.Length)
-                        sb.Append("-");
-                    parts++;
-                }
-                Debug.Print(sb.ToString());
+                Debug.Print("Physical address: " + networkInterface.PhysicalAddress.ToHexString());
 
                 Debug.Print("Subnet mask: " + networkInterface.SubnetMask);
                 count++;

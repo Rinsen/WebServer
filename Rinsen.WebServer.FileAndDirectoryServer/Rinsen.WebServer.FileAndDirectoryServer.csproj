@@ -34,15 +34,18 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
+    <Compile Include="BoundaryHeaderCollection.cs" />
     <Compile Include="DirectoryListBuilder.cs" />
+    <Compile Include="FileController.cs" />
+    <Compile Include="ISDCardManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileAndDirectoryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SPOT.Native">
-    </Reference>
+    <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="System" />
     <Reference Include="System.IO" />
+    <Reference Include="System.Text.RegularExpressions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rinsen.WebServer\Rinsen.WebServer.csproj">

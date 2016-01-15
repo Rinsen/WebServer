@@ -1,0 +1,56 @@
+body {
+	background: #0C1114 url(/images/img01.jpg) no-repeat top center;
+	color: #8EA2AD;
+	line-height: 1.75em;
+	font-size: 12pt;
+}
+
+input.form-submit {
+	color: #FFFFFF;
+	font-family: Oswald, sans-serif;
+	padding: 5px;
+	margin-left: 1em;
+	background: #CC7F5C;
+	border: 0;
+}
+
+input.form-text {
+	padding: 10px;
+	border: dotted 1px #26333D;
+}
+
+h1.Title {
+    color: cornflowerblue;
+}
+
+span.Messages {
+    color: red;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear-fix {
+    clear: both;
+}
+
+.clear-left {
+    clear: left;
+}
+
+.clear-right {
+    clear: right;
+}
+
+input.stretch {
+    width: 100%;
+}
+
+input.stretch3Quarters {
+    width: 75%;
+}
