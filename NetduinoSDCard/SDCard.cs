@@ -28,7 +28,14 @@ namespace NetduinoSDCard
         public DirectoryInfo WorkingDirectoryInfo { get; set; }
         public void SetWorkingDirectoryInfo(string WorkingDirectory)
         {
-            var strPath = MountDirectoryPath + WorkingDirectory;
+            string strPath = string.Empty;
+
+
+            if (WorkingDirectory.LastIndexOf("\\") == WorkingDirectory.Length - 1)
+                strPath = MountDirectoryPath + WorkingDirectory;
+            else
+                strPath = MountDirectoryPath + WorkingDirectory + "\\";
+
             CreateDirectory(strPath);
             WorkingDirectoryInfo = new DirectoryInfo(strPath);
         }

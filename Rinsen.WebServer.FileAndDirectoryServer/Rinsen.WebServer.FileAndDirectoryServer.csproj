@@ -42,8 +42,7 @@
     <Compile Include="FileAndDirectoryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.SPOT.Native">
-    </Reference>
+    <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="System" />
     <Reference Include="System.IO" />
     <Reference Include="System.Text.RegularExpressions" />
