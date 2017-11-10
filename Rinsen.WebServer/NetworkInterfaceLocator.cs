@@ -3,6 +3,7 @@ using Microsoft.SPOT;
 using System.Net;
 using Microsoft.SPOT.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 
 namespace Rinsen.WebServer
 {
@@ -37,16 +38,26 @@ namespace Rinsen.WebServer
                 count++;
             }
 #endif
-            foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces())
+            // add retry logic to give the device a chance to init network, most likely needed wireless
+            int retryCount = 0;
+            int maxRetries = 10;
+            while (true)
             {
-                if (networkInterface.GatewayAddress != "0.0.0.0")
+                if (retryCount >= maxRetries) break;
+
+                Debug.Print("Getting IP address...");
+                foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces())
                 {
-                    Debug.Print("Selected interface: " + networkInterface.IPAddress);
-                    return IPAddress.Parse(networkInterface.IPAddress);
+                    if (networkInterface.GatewayAddress != "0.0.0.0")
+                    {
+                        Debug.Print("Selected interface: " + networkInterface.IPAddress);
+                        return IPAddress.Parse(networkInterface.IPAddress);
+                    }
                 }
+                Thread.Sleep(1000);
+                retryCount++;
             }
             throw new Exception("No network interface detected");
         }
-
     }
 }

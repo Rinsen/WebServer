@@ -7,6 +7,10 @@ namespace Rinsen.WebServer
 {
     public class RequestContext
     {
+        public RequestContext()
+        {
+            Headers = new HeaderCollection();
+        }
         public string RequestLine { get { return Method + " " + Uri.RawPath + " " + HttpVersion; } }
 
         public HeaderCollection Headers { get; private set; }
@@ -25,7 +29,6 @@ namespace Rinsen.WebServer
 
         public void SetHeaders(ArrayList headers)
         {
-            Headers = new HeaderCollection();
             foreach (string header in headers)
             {
                 SetHeader(header);
@@ -35,7 +38,7 @@ namespace Rinsen.WebServer
         public void SetHeader(string header)
         {
             var splitIndex = header.IndexOf(':');
-            Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).TrimStart(' '));
+            Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).Trim());
         }
 
         public void SetRequestLineAndUri(string requestLine)

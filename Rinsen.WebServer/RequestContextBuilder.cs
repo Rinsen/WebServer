@@ -27,41 +27,42 @@ namespace Rinsen.WebServer
         {
             var headerSize = 0;
             byte[] buffer = new byte[_serverContext.BufferSize];
-            var requestLineSet = false;
+            var initialLine = string.Empty;
 
-            while (socket.Available > 0)
+            // much faster to read from network in one shot
+            var httpHeader = string.Empty;
+            while(socket.Available > 0)
             {
-                socket.ReceiveUntil(buffer, "\r\n");
-                var headerString = new String(Encoding.UTF8.GetChars(buffer));
+                socket.Receive(buffer);
+                httpHeader = httpHeader + new String(Encoding.UTF8.GetChars(buffer));
+            }
 
-                // End if no more headers is discovered
-                if (headerString == null)
-                {
-                    break;
-                }
+            int count = 0;
+            var lines = httpHeader.Split('\n');
+            foreach(var item in lines)
+            {
+                var header = item.Trim(); // remove the \r
+                if (header == string.Empty) continue;
 
-                headerSize += headerString.Length;
-                // Check on sum of header size to try to avoid out of memory exceptions and other nasty things
+                headerSize += header.Length;
                 if (headerSize > _serverContext.MaxClientHeaderSize)
                 {
                     throw new EntityToLargeException("Header entity is to large (HTTP413)");
                 }
 
-                if (!requestLineSet)
+                if (count == 0)
                 {
-                    if (headerString == null  || headerString == string.Empty)
-                    {
-                        throw new ArgumentNullException("Request does not contain any data");
-                    }
-
-                    requestLineSet = true;
-                    requestContext.SetRequestLineAndUri(headerString);
+                    initialLine = header;
                 }
                 else
                 {
-                    requestContext.SetHeader(headerString);
+                    requestContext.SetHeader(header);
                 }
+                count++;
             }
+
+            // moved this to the end because "Host" may not be set before constructing Uri.
+            requestContext.SetRequestLineAndUri(initialLine);
         }
     }
 }
