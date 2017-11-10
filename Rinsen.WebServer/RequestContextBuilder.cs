@@ -62,7 +62,7 @@ namespace Rinsen.WebServer
             }
 
             // moved this to the end because "Host" may not be set before constructing Uri.
-            requestContext.SetRequestLine(initialLine);
+            requestContext.SetRequestLineAndUri(initialLine);
         }
     }
 }

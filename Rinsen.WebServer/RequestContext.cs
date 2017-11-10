@@ -41,7 +41,7 @@ namespace Rinsen.WebServer
             Headers.AddValue(header.Substring(0, splitIndex), header.Substring(splitIndex + 1).Trim());
         }
 
-        public void SetRequestLine(string requestLine)
+        public void SetRequestLineAndUri(string requestLine)
         {
             var parts = requestLine.Split(' ');
             Method = parts[0];

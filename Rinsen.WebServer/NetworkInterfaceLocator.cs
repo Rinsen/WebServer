@@ -38,9 +38,13 @@ namespace Rinsen.WebServer
                 count++;
             }
 #endif
-            // add a retry to give the device a chance to init the network, most likely needed wireless
+            // add retry logic to give the device a chance to init network, most likely needed wireless
+            int retryCount = 0;
+            int maxRetries = 10;
             while (true)
             {
+                if (retryCount >= maxRetries) break;
+
                 Debug.Print("Getting IP address...");
                 foreach (var networkInterface in NetworkInterface.GetAllNetworkInterfaces())
                 {
@@ -51,6 +55,7 @@ namespace Rinsen.WebServer
                     }
                 }
                 Thread.Sleep(1000);
+                retryCount++;
             }
             throw new Exception("No network interface detected");
         }
